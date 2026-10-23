@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart – ShopNow</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/animations.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i><span>ShopNow</span></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a><a href="shop.html">Shop</a>
+        <a href="index.html#categories">Categories</a><a href="index.html#deals">Deals</a><a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="wishlist.html" class="icon-btn"><i class="fas fa-heart"></i><span class="badge" id="wishlistBadge">0</span></a>
+        <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartBadge">0</span></a>
+        <a href="account.html" class="icon-btn"><i class="fas fa-user"></i></a>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <h1>Shopping <span class="highlight">Cart</span></h1>
+    <nav class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right"></i> Cart</nav>
+  </div>
+
+  <section class="cart-layout container section">
+    <div class="cart-items-wrap" id="cartItemsWrap">
+      <!-- Populated by JS -->
+    </div>
+
+    <aside class="cart-summary" id="cartSummary">
+      <div class="summary-card">
+        <h3>Order Summary</h3>
+        <div class="summary-row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
+        <div class="summary-row"><span>Discount</span><span id="discountRow" class="text-green">-₹0</span></div>
+        <div class="summary-row"><span>Delivery</span><span id="deliveryRow">₹49</span></div>
+        <div class="summary-divider"></div>
+        <div class="summary-row total"><span>Total</span><span id="total">₹0</span></div>
+
+        <div class="coupon-wrap">
+          <input type="text" id="couponInput" placeholder="Enter coupon code"/>
+          <button id="applyCoupon" class="btn btn-outline">Apply</button>
+        </div>
+        <div id="couponMsg"></div>
+
+        <a href="checkout.html" class="btn btn-primary full-width" id="checkoutBtn">
+          Proceed to Checkout <i class="fas fa-arrow-right"></i>
+        </a>
+        <a href="shop.html" class="btn btn-outline full-width" style="margin-top:.75rem">
+          <i class="fas fa-arrow-left"></i> Continue Shopping
+        </a>
+      </div>
+
+      <div class="secure-badge">
+        <i class="fas fa-lock"></i> Secure checkout · SSL Encrypted
+      </div>
+    </aside>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none;padding-top:2rem;">
+        <p>© 2026 ShopNow. All rights reserved.</p>
+        <div class="payment-icons">
+          <i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-paypal"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+  <button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>
