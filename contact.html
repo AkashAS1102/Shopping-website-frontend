@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact – ShopNow</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/animations.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i><span>ShopNow</span></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a><a href="shop.html">Shop</a>
+        <a href="index.html#categories">Categories</a><a href="index.html#deals">Deals</a>
+        <a href="contact.html" class="active">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="wishlist.html" class="icon-btn"><i class="fas fa-heart"></i><span class="badge" id="wishlistBadge">0</span></a>
+        <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartBadge">0</span></a>
+        <a href="account.html" class="icon-btn"><i class="fas fa-user"></i></a>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <h1>Contact <span class="highlight">Us</span></h1>
+    <p>We'd love to hear from you. Get in touch!</p>
+    <nav class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right"></i> Contact</nav>
+  </div>
+
+  <section class="container section">
+    <div class="contact-layout">
+
+      <div class="contact-info">
+        <h2>Get in <span class="highlight">Touch</span></h2>
+        <p>Have questions about an order or need help? We're here 24/7.</p>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div><strong>Our Office</strong><br/>123 MG Road, Bangalore, Karnataka 560001, India</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-phone"></i></div>
+          <div><strong>Phone</strong><br/>+91 98765 43210</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div><strong>Email</strong><br/>support@shopnow.in</div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-clock"></i></div>
+          <div><strong>Support Hours</strong><br/>Mon–Sun, 9 AM – 9 PM IST</div>
+        </div>
+        <div class="social-links" style="margin-top:2rem;">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap">
+        <form id="contactForm" class="contact-form">
+          <h3>Send a Message</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" placeholder="John Doe" required/>
+            </div>
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" placeholder="john@email.com" required/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Subject *</label>
+            <select required>
+              <option value="">Select a subject</option>
+              <option>Order Issue</option>
+              <option>Return / Refund</option>
+              <option>Payment Problem</option>
+              <option>Product Inquiry</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message *</label>
+            <textarea rows="5" placeholder="Type your message here…" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary full-width">
+            Send Message <i class="fas fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div style="margin-top:4rem;">
+      <div class="section-header">
+        <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">How long does delivery take? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Standard delivery takes 3–5 business days. Express delivery (1–2 days) is available for select pin codes.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">What is the return policy? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>We offer a 30-day hassle-free return policy. Items must be unused and in original packaging.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">How do I track my order? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>After placing an order, you'll receive a tracking link via email. You can also track from My Account page.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Are my payments secure? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer"><p>Yes! All payments are encrypted with SSL and we never store your card details.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none;padding-top:2rem;">
+        <p>© 2026 ShopNow. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+  <button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+</html>
