@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopNow – Modern Shopping</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-shopping-bag"></i>
+        <span>ShopNow</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" class="active">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="#categories">Categories</a>
+        <a href="#deals">Deals</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search products…" />
+        </div>
+        <a href="wishlist.html" class="icon-btn" title="Wishlist">
+          <i class="fas fa-heart"></i>
+          <span class="badge" id="wishlistBadge">0</span>
+        </a>
+        <a href="cart.html" class="icon-btn" title="Cart">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="badge" id="cartBadge">0</span>
+        </a>
+        <a href="account.html" class="icon-btn" title="Account">
+          <i class="fas fa-user"></i>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="hero-slides">
+      <div class="slide active" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="slide-content">
+          <span class="badge-tag">New Arrival ✨</span>
+          <h1>Discover Your <br/><span class="gradient-text">Perfect Style</span></h1>
+          <p>Explore thousands of premium products at unbeatable prices. Shop the latest trends today.</p>
+          <div class="hero-btns">
+            <a href="shop.html" class="btn btn-primary">Shop Now <i class="fas fa-arrow-right"></i></a>
+            <a href="#deals" class="btn btn-outline">View Deals</a>
+          </div>
+        </div>
+        <div class="slide-visual">
+          <div class="floating-card card-1">
+            <i class="fas fa-star"></i> 4.9 Rating
+          </div>
+          <div class="floating-card card-2">
+            <i class="fas fa-truck"></i> Free Delivery
+          </div>
+          <div class="hero-image-circle">
+            <i class="fas fa-tshirt hero-icon"></i>
+          </div>
+        </div>
+      </div>
+      <div class="slide" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+        <div class="slide-content">
+          <span class="badge-tag">Hot Deals 🔥</span>
+          <h1>Up to <span class="gradient-text">50% OFF</span><br/>Electronics</h1>
+          <p>Grab the best deals on laptops, phones, and gadgets. Limited time offer!</p>
+          <div class="hero-btns">
+            <a href="shop.html?cat=electronics" class="btn btn-primary">Grab Deal <i class="fas fa-bolt"></i></a>
+            <a href="#deals" class="btn btn-outline">See All Deals</a>
+          </div>
+        </div>
+        <div class="slide-visual">
+          <div class="floating-card card-1"><i class="fas fa-percentage"></i> 50% OFF</div>
+          <div class="floating-card card-2"><i class="fas fa-clock"></i> Limited Time</div>
+          <div class="hero-image-circle">
+            <i class="fas fa-laptop hero-icon"></i>
+          </div>
+        </div>
+      </div>
+      <div class="slide" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+        <div class="slide-content">
+          <span class="badge-tag">Trending Now 📈</span>
+          <h1>Summer <span class="gradient-text">Collection</span><br/>2026</h1>
+          <p>Fresh styles for every occasion. Be the trendsetter with our exclusive summer picks.</p>
+          <div class="hero-btns">
+            <a href="shop.html?cat=fashion" class="btn btn-primary">Explore <i class="fas fa-sun"></i></a>
+            <a href="#categories" class="btn btn-outline">Categories</a>
+          </div>
+        </div>
+        <div class="slide-visual">
+          <div class="floating-card card-1"><i class="fas fa-heart"></i> 2K+ Wishlisted</div>
+          <div class="floating-card card-2"><i class="fas fa-tag"></i> New Season</div>
+          <div class="hero-image-circle">
+            <i class="fas fa-sun hero-icon"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-dots">
+      <button class="dot active" data-slide="0"></button>
+      <button class="dot" data-slide="1"></button>
+      <button class="dot" data-slide="2"></button>
+    </div>
+    <button class="slide-arrow prev" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
+    <button class="slide-arrow next" id="nextSlide"><i class="fas fa-chevron-right"></i></button>
+  </section>
+
+  <!-- ===== TRUST BADGES ===== -->
+  <section class="trust-bar">
+    <div class="container">
+      <div class="trust-item">
+        <i class="fas fa-truck-fast"></i>
+        <div>
+          <strong>Free Shipping</strong>
+          <span>On orders over ₹499</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <i class="fas fa-shield-halved"></i>
+        <div>
+          <strong>Secure Payment</strong>
+          <span>100% protected</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <i class="fas fa-rotate-left"></i>
+        <div>
+          <strong>Easy Returns</strong>
+          <span>30-day return policy</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <i class="fas fa-headset"></i>
+        <div>
+          <strong>24/7 Support</strong>
+          <span>Ready to help</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CATEGORIES ===== -->
+  <section class="categories section" id="categories">
+    <div class="container">
+      <div class="section-header">
+        <h2>Shop by <span class="highlight">Category</span></h2>
+        <p>Find exactly what you're looking for</p>
+      </div>
+      <div class="categories-grid">
+        <a href="shop.html?cat=electronics" class="cat-card" data-cat="electronics">
+          <div class="cat-icon" style="background: linear-gradient(135deg,#667eea,#764ba2)">
+            <i class="fas fa-laptop"></i>
+          </div>
+          <h3>Electronics</h3>
+          <span>250+ Products</span>
+        </a>
+        <a href="shop.html?cat=fashion" class="cat-card" data-cat="fashion">
+          <div class="cat-icon" style="background: linear-gradient(135deg,#f093fb,#f5576c)">
+            <i class="fas fa-tshirt"></i>
+          </div>
+          <h3>Fashion</h3>
+          <span>400+ Products</span>
+        </a>
+        <a href="shop.html?cat=home" class="cat-card" data-cat="home">
+          <div class="cat-icon" style="background: linear-gradient(135deg,#4facfe,#00f2fe)">
+            <i class="fas fa-couch"></i>
+          </div>
+          <h3>Home & Living</h3>
+          <span>180+ Products</span>
+        </a>
+        <a href="shop.html?cat=sports" class="cat-card" data-cat="sports">
+          <div class="cat-icon" style="background: linear-gradient(135deg,#43e97b,#38f9d7)">
+            <i class="fas fa-dumbbell"></i>
+          </div>
+          <h3>Sports</h3>
+          <span>120+ Products</span>
+        </a>
+        <a href="shop.html?cat=beauty" class="cat-card" data-cat="beauty">
+          <div class="cat-icon" style="background: linear-gradient(135deg,#fa709a,#fee140)">
+            <i class="fas fa-spray-can-sparkles"></i>
+          </div>
+          <h3>Beauty</h3>
+          <span>90+ Products</span>
+        </a>
+        <a href="shop.html?cat=books" class="cat-card" data-cat="books">
+          <div class="cat-icon" style="background: linear-gradient(135deg,#a18cd1,#fbc2eb)">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <h3>Books</h3>
+          <span>500+ Products</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURED PRODUCTS ===== -->
+  <section class="products section" id="featured">
+    <div class="container">
+      <div class="section-header">
+        <h2>Featured <span class="highlight">Products</span></h2>
+        <p>Hand-picked just for you</p>
+        <div class="filter-tabs">
+          <button class="tab active" data-filter="all">All</button>
+          <button class="tab" data-filter="electronics">Electronics</button>
+          <button class="tab" data-filter="fashion">Fashion</button>
+          <button class="tab" data-filter="home">Home</button>
+          <button class="tab" data-filter="sports">Sports</button>
+        </div>
+      </div>
+      <div class="products-grid" id="productsGrid"></div>
+      <div class="load-more-wrap">
+        <a href="shop.html" class="btn btn-outline">View All Products <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DEALS BANNER ===== -->
+  <section class="deals-banner section" id="deals">
+    <div class="container">
+      <div class="deal-card big-deal">
+        <div class="deal-content">
+          <span class="deal-tag">Flash Sale</span>
+          <h2>50% OFF on All <br/> Electronics</h2>
+          <p>Use code <strong>FLASH50</strong> at checkout</p>
+          <div class="countdown" id="countdown">
+            <div class="time-block"><span id="hours">00</span><label>Hours</label></div>
+            <div class="time-block"><span id="minutes">00</span><label>Minutes</label></div>
+            <div class="time-block"><span id="seconds">00</span><label>Seconds</label></div>
+          </div>
+          <a href="shop.html?cat=electronics" class="btn btn-primary">Shop the Deal</a>
+        </div>
+        <div class="deal-image">
+          <i class="fas fa-laptop-code deal-icon"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section class="testimonials section">
+    <div class="container">
+      <div class="section-header">
+        <h2>What Our <span class="highlight">Customers Say</span></h2>
+        <p>Trusted by over 50,000+ happy shoppers</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p>"Amazing quality and super-fast delivery! ShopNow is my go-to for everything online."</p>
+          <div class="reviewer"><div class="avatar">A</div><div><strong>Aanya S.</strong><span>Delhi</span></div></div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i></div>
+          <p>"Best deals I've found online. The return policy is hassle-free and customer service is top notch."</p>
+          <div class="reviewer"><div class="avatar">R</div><div><strong>Rahul M.</strong><span>Mumbai</span></div></div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <p>"I love the UI! Shopping has never been this smooth. Highly recommend ShopNow to everyone!"</p>
+          <div class="reviewer"><div class="avatar">P</div><div><strong>Priya K.</strong><span>Bangalore</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWSLETTER ===== -->
+  <section class="newsletter">
+    <div class="container">
+      <div class="newsletter-content">
+        <i class="fas fa-envelope-open-text"></i>
+        <h2>Get Exclusive Deals in Your Inbox</h2>
+        <p>Subscribe and never miss a sale again!</p>
+        <form class="newsletter-form" id="newsletterForm">
+          <input type="email" placeholder="Enter your email…" required />
+          <button type="submit" class="btn btn-primary">Subscribe <i class="fas fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i> ShopNow</a>
+          <p>Your ultimate destination for premium shopping experiences. Quality products, unbeatable prices.</p>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="wishlist.html">Wishlist</a></li>
+            <li><a href="account.html">My Account</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Help</h4>
+          <ul>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Track Order</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <ul class="contact-list">
+            <li><i class="fas fa-map-marker-alt"></i> 123, MG Road, Bangalore, India</li>
+            <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+            <li><i class="fas fa-envelope"></i> support@shopnow.in</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 ShopNow. All rights reserved.</p>
+        <div class="payment-icons">
+          <i class="fab fa-cc-visa"></i>
+          <i class="fab fa-cc-mastercard"></i>
+          <i class="fab fa-cc-paypal"></i>
+          <i class="fab fa-cc-amex"></i>
+          <i class="fab fa-google-pay"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="back-to-top" id="backToTop" title="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
