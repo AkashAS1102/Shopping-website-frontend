@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop – ShopNow</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/animations.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i><span>ShopNow</span></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="shop.html" class="active">Shop</a>
+        <a href="index.html#categories">Categories</a>
+        <a href="index.html#deals">Deals</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search products…"/>
+        </div>
+        <a href="wishlist.html" class="icon-btn"><i class="fas fa-heart"></i><span class="badge" id="wishlistBadge">0</span></a>
+        <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartBadge">0</span></a>
+        <a href="account.html" class="icon-btn"><i class="fas fa-user"></i></a>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <h1>Our <span class="highlight">Store</span></h1>
+    <p>Browse our complete collection of premium products</p>
+    <nav class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right"></i> Shop</nav>
+  </div>
+
+  <!-- SHOP LAYOUT -->
+  <section class="shop-layout container">
+
+    <!-- SIDEBAR -->
+    <aside class="shop-sidebar" id="shopSidebar">
+      <div class="sidebar-header">
+        <h3><i class="fas fa-sliders"></i> Filters</h3>
+        <button id="clearFilters" class="btn-text">Clear All</button>
+      </div>
+
+      <div class="filter-group">
+        <h4>Category</h4>
+        <label class="filter-check"><input type="checkbox" value="all" checked id="catAll"> All Products</label>
+        <label class="filter-check"><input type="checkbox" value="electronics"> Electronics</label>
+        <label class="filter-check"><input type="checkbox" value="fashion"> Fashion</label>
+        <label class="filter-check"><input type="checkbox" value="home"> Home & Living</label>
+        <label class="filter-check"><input type="checkbox" value="sports"> Sports</label>
+        <label class="filter-check"><input type="checkbox" value="beauty"> Beauty</label>
+        <label class="filter-check"><input type="checkbox" value="books"> Books</label>
+      </div>
+
+      <div class="filter-group">
+        <h4>Price Range</h4>
+        <div class="price-range">
+          <input type="range" id="priceRange" min="0" max="5000" value="5000" step="100"/>
+          <div class="price-labels">
+            <span>₹0</span>
+            <span id="priceVal">₹5000</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <h4>Rating</h4>
+        <label class="filter-check"><input type="radio" name="rating" value="0" checked> All Ratings</label>
+        <label class="filter-check"><input type="radio" name="rating" value="4"> 4★ & above</label>
+        <label class="filter-check"><input type="radio" name="rating" value="3"> 3★ & above</label>
+      </div>
+
+      <div class="filter-group">
+        <h4>Availability</h4>
+        <label class="filter-check"><input type="checkbox" id="inStockOnly"> In Stock Only</label>
+        <label class="filter-check"><input type="checkbox" id="onSaleOnly"> On Sale Only</label>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="shop-main">
+      <div class="shop-toolbar">
+        <div class="results-info">
+          Showing <strong id="resultCount">0</strong> products
+        </div>
+        <div class="toolbar-right">
+          <select id="sortSelect">
+            <option value="default">Sort: Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Highest Rated</option>
+            <option value="newest">Newest</option>
+          </select>
+          <button class="view-btn active" id="gridView" title="Grid View"><i class="fas fa-th"></i></button>
+          <button class="view-btn" id="listView" title="List View"><i class="fas fa-list"></i></button>
+          <button class="filter-toggle-btn" id="filterToggle"><i class="fas fa-sliders"></i> Filters</button>
+        </div>
+      </div>
+
+      <div class="products-grid" id="shopProductsGrid"></div>
+
+      <div class="pagination" id="pagination"></div>
+    </main>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none; padding-top:2rem;">
+        <p>© 2026 ShopNow. All rights reserved.</p>
+        <div class="payment-icons">
+          <i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-paypal"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+  <button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/shop.js"></script>
+</body>
+</html>
