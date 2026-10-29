@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wishlist – ShopNow</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/animations.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i><span>ShopNow</span></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a><a href="shop.html">Shop</a>
+        <a href="index.html#categories">Categories</a><a href="index.html#deals">Deals</a><a href="contact.html">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="wishlist.html" class="icon-btn"><i class="fas fa-heart"></i><span class="badge" id="wishlistBadge">0</span></a>
+        <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartBadge">0</span></a>
+        <a href="account.html" class="icon-btn"><i class="fas fa-user"></i></a>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <h1>My <span class="highlight">Wishlist</span></h1>
+    <nav class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right"></i> Wishlist</nav>
+  </div>
+
+  <section class="container section">
+    <div class="wishlist-header">
+      <span id="wishlistCount">0 items saved</span>
+      <button id="addAllToCart" class="btn btn-primary"><i class="fas fa-cart-plus"></i> Add All to Cart</button>
+    </div>
+    <div class="products-grid" id="wishlistGrid"></div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none;padding-top:2rem;">
+        <p>© 2026 ShopNow. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+  <button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/wishlist.js"></script>
+</body>
+</html>
