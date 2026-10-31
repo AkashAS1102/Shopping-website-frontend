@@ -3,92 +3,173 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shop – ShopNow</title>
+  <meta name="description" content="Shop all premium products on ShopNow. Filter by category, price, rating, brand, and discounts. Enjoy fast delivery across India."/>
+  <meta name="theme-color" content="#667eea"/>
+  <title>Shop All Products – ShopNow</title>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="css/animations.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
-  <!-- NAVBAR -->
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div class="announcement-bar" id="announcementBar">
+    <div class="announcement-inner">
+      <span>🎉 MEGA SALE — Use code <strong>FLASH50</strong> for 50% OFF on Electronics! &nbsp;|&nbsp; Free shipping on orders over ₹499 &nbsp;|&nbsp; 30-day easy returns</span>
+    </div>
+    <button class="announcement-close" id="closeAnnouncement" title="Close"><i class="fas fa-times"></i></button>
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
   <header class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i><span>ShopNow</span></a>
+      <a href="index.html" class="logo">
+        <i class="fas fa-shopping-bag"></i>
+        <span>ShopNow</span>
+      </a>
+
       <nav class="nav-links" id="navLinks">
         <a href="index.html">Home</a>
-        <a href="shop.html" class="active">Shop</a>
+        <div class="nav-dropdown">
+          <a href="shop.html" class="dropdown-trigger active">Shop <i class="fas fa-chevron-down fa-xs"></i></a>
+          <div class="dropdown-menu">
+            <a href="shop.html?cat=electronics"><i class="fas fa-laptop"></i> Electronics</a>
+            <a href="shop.html?cat=fashion"><i class="fas fa-tshirt"></i> Fashion</a>
+            <a href="shop.html?cat=home"><i class="fas fa-couch"></i> Home &amp; Living</a>
+            <a href="shop.html?cat=sports"><i class="fas fa-dumbbell"></i> Sports</a>
+            <a href="shop.html?cat=beauty"><i class="fas fa-spray-can-sparkles"></i> Beauty</a>
+            <a href="shop.html?cat=books"><i class="fas fa-book-open"></i> Books</a>
+          </div>
+        </div>
         <a href="index.html#categories">Categories</a>
         <a href="index.html#deals">Deals</a>
         <a href="contact.html">Contact</a>
       </nav>
+
       <div class="nav-actions">
-        <div class="search-bar">
+        <div class="search-bar" id="searchBarDesktop">
           <i class="fas fa-search"></i>
-          <input type="text" id="searchInput" placeholder="Search products…"/>
+          <input type="text" id="searchInput" placeholder="Search products, brands…" autocomplete="off"/>
+          <div class="search-suggestions" id="searchSuggestions"></div>
         </div>
-        <a href="wishlist.html" class="icon-btn"><i class="fas fa-heart"></i><span class="badge" id="wishlistBadge">0</span></a>
-        <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartBadge">0</span></a>
-        <a href="account.html" class="icon-btn"><i class="fas fa-user"></i></a>
-        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        <button class="icon-btn search-mobile-btn" id="searchMobileBtn" title="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        <a href="wishlist.html" class="icon-btn" title="Wishlist">
+          <i class="fas fa-heart"></i>
+          <span class="badge" id="wishlistBadge">0</span>
+        </a>
+        <a href="cart.html" class="icon-btn cart-icon-btn" title="Cart" id="cartNavBtn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="badge" id="cartBadge">0</span>
+        </a>
+        <a href="account.html" class="icon-btn" title="Account">
+          <i class="fas fa-user"></i>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
+    </div>
+
+    <!-- Mobile Search Bar -->
+    <div class="mobile-search-bar" id="mobileSearchBar">
+      <input type="text" id="mobileSearchInput" placeholder="Search products…"/>
+      <button id="mobileSearchSubmit"><i class="fas fa-search"></i></button>
+      <button id="mobileSearchClose"><i class="fas fa-times"></i></button>
     </div>
   </header>
 
-  <!-- PAGE HERO -->
+  <!-- ===== PAGE HERO ===== -->
   <div class="page-hero">
     <h1>Our <span class="highlight">Store</span></h1>
-    <p>Browse our complete collection of premium products</p>
-    <nav class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right"></i> Shop</nav>
+    <p>Browse our complete catalog of hand-picked premium products</p>
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="fas fa-chevron-right"></i>
+      <span>Shop</span>
+    </nav>
   </div>
 
-  <!-- SHOP LAYOUT -->
+  <!-- ===== QUICK CATEGORY PILLS BAR ===== -->
+  <div style="background:var(--white);border-bottom:1px solid var(--border);padding:.85rem 0;">
+    <div class="container" style="display:flex;gap:.6rem;overflow-x:auto;padding-bottom:.2rem;-webkit-overflow-scrolling:touch;">
+      <a href="shop.html" class="tab active" style="white-space:nowrap;"><i class="fas fa-th-large"></i> All Items</a>
+      <a href="shop.html?cat=electronics" class="tab" style="white-space:nowrap;"><i class="fas fa-laptop"></i> Electronics</a>
+      <a href="shop.html?cat=fashion" class="tab" style="white-space:nowrap;"><i class="fas fa-tshirt"></i> Fashion</a>
+      <a href="shop.html?cat=home" class="tab" style="white-space:nowrap;"><i class="fas fa-couch"></i> Home &amp; Living</a>
+      <a href="shop.html?cat=sports" class="tab" style="white-space:nowrap;"><i class="fas fa-dumbbell"></i> Sports</a>
+      <a href="shop.html?cat=beauty" class="tab" style="white-space:nowrap;"><i class="fas fa-spray-can-sparkles"></i> Beauty</a>
+      <a href="shop.html?cat=books" class="tab" style="white-space:nowrap;"><i class="fas fa-book-open"></i> Books</a>
+    </div>
+  </div>
+
+  <!-- ===== SHOP LAYOUT ===== -->
   <section class="shop-layout container">
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR FILTERS -->
     <aside class="shop-sidebar" id="shopSidebar">
       <div class="sidebar-header">
         <h3><i class="fas fa-sliders"></i> Filters</h3>
-        <button id="clearFilters" class="btn-text">Clear All</button>
+        <button id="clearFilters" class="btn-text"><i class="fas fa-rotate-left"></i> Clear All</button>
       </div>
 
+      <!-- Categories Filter -->
       <div class="filter-group">
         <h4>Category</h4>
-        <label class="filter-check"><input type="checkbox" value="all" checked id="catAll"> All Products</label>
-        <label class="filter-check"><input type="checkbox" value="electronics"> Electronics</label>
-        <label class="filter-check"><input type="checkbox" value="fashion"> Fashion</label>
-        <label class="filter-check"><input type="checkbox" value="home"> Home & Living</label>
-        <label class="filter-check"><input type="checkbox" value="sports"> Sports</label>
-        <label class="filter-check"><input type="checkbox" value="beauty"> Beauty</label>
-        <label class="filter-check"><input type="checkbox" value="books"> Books</label>
+        <label class="filter-check"><input type="checkbox" value="all" checked id="catAll"> All Categories</label>
+        <label class="filter-check"><input type="checkbox" value="electronics"> Electronics (8)</label>
+        <label class="filter-check"><input type="checkbox" value="fashion"> Fashion (7)</label>
+        <label class="filter-check"><input type="checkbox" value="home"> Home &amp; Living (6)</label>
+        <label class="filter-check"><input type="checkbox" value="sports"> Sports &amp; Fitness (5)</label>
+        <label class="filter-check"><input type="checkbox" value="beauty"> Beauty &amp; Care (4)</label>
+        <label class="filter-check"><input type="checkbox" value="books"> Books &amp; Reads (6)</label>
       </div>
 
+      <!-- Price Range -->
       <div class="filter-group">
-        <h4>Price Range</h4>
+        <h4>Max Price</h4>
         <div class="price-range">
-          <input type="range" id="priceRange" min="0" max="5000" value="5000" step="100"/>
+          <input type="range" id="priceRange" min="200" max="20000" value="20000" step="200"/>
           <div class="price-labels">
-            <span>₹0</span>
-            <span id="priceVal">₹5000</span>
+            <span>₹200</span>
+            <span id="priceVal" style="font-weight:700;color:var(--primary)">₹20,000</span>
           </div>
         </div>
       </div>
 
+      <!-- Rating Filter -->
       <div class="filter-group">
-        <h4>Rating</h4>
+        <h4>Customer Rating</h4>
         <label class="filter-check"><input type="radio" name="rating" value="0" checked> All Ratings</label>
-        <label class="filter-check"><input type="radio" name="rating" value="4"> 4★ & above</label>
-        <label class="filter-check"><input type="radio" name="rating" value="3"> 3★ & above</label>
+        <label class="filter-check"><input type="radio" name="rating" value="4.5"> 4.5★ &amp; above</label>
+        <label class="filter-check"><input type="radio" name="rating" value="4.0"> 4.0★ &amp; above</label>
+        <label class="filter-check"><input type="radio" name="rating" value="3.5"> 3.5★ &amp; above</label>
       </div>
 
+      <!-- Availability & Deals -->
       <div class="filter-group">
-        <h4>Availability</h4>
+        <h4>Availability &amp; Deals</h4>
         <label class="filter-check"><input type="checkbox" id="inStockOnly"> In Stock Only</label>
-        <label class="filter-check"><input type="checkbox" id="onSaleOnly"> On Sale Only</label>
+        <label class="filter-check"><input type="checkbox" id="onSaleOnly"> On Sale / Discounted</label>
+      </div>
+
+      <!-- Trust Badges in Sidebar -->
+      <div style="background:var(--bg);border-radius:var(--radius);padding:1rem;margin-top:1.5rem;border:1px solid var(--border-light);">
+        <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.5rem;">
+          <i class="fas fa-truck-fast" style="color:var(--primary)"></i> Free delivery above ₹499
+        </div>
+        <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem;font-weight:600;color:var(--text);margin-bottom:.5rem;">
+          <i class="fas fa-rotate-left" style="color:var(--success)"></i> 30-day return policy
+        </div>
+        <div style="display:flex;align-items:center;gap:.6rem;font-size:.8rem;font-weight:600;color:var(--text);">
+          <i class="fas fa-shield-halved" style="color:var(--info)"></i> 100% Genuine products
+        </div>
       </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
+    <!-- MAIN PRODUCT CATALOG -->
     <main class="shop-main">
       <div class="shop-toolbar">
         <div class="results-info">
@@ -100,7 +181,9 @@
             <option value="price-asc">Price: Low to High</option>
             <option value="price-desc">Price: High to Low</option>
             <option value="rating">Highest Rated</option>
-            <option value="newest">Newest</option>
+            <option value="newest">Newest Arrivals</option>
+            <option value="discount">Biggest Discount</option>
+            <option value="reviews">Most Reviewed</option>
           </select>
           <button class="view-btn active" id="gridView" title="Grid View"><i class="fas fa-th"></i></button>
           <button class="view-btn" id="listView" title="List View"><i class="fas fa-list"></i></button>
@@ -108,26 +191,106 @@
         </div>
       </div>
 
+      <!-- Active Filter Chips Container -->
+      <div id="activeFilterChips" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;"></div>
+
       <div class="products-grid" id="shopProductsGrid"></div>
 
       <div class="pagination" id="pagination"></div>
     </main>
   </section>
 
-  <!-- FOOTER -->
+  <!-- ===== CART SIDEBAR (fly-out) ===== -->
+  <div class="cart-sidebar-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebarEl">
+    <div class="cart-sidebar-header">
+      <h3><i class="fas fa-shopping-cart"></i> My Cart (<span id="sideCartCount">0</span>)</h3>
+      <button id="closeSideCart"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-sidebar-items" id="sideCartItems"></div>
+    <div class="cart-sidebar-footer">
+      <div class="side-cart-total">Total: <strong id="sideCartTotal">₹0</strong></div>
+      <a href="cart.html" class="btn btn-outline full-width" style="margin-bottom:.5rem">View Full Cart</a>
+      <a href="checkout.html" class="btn btn-primary full-width">Checkout <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </aside>
+
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container">
-      <div class="footer-bottom" style="border-top:none; padding-top:2rem;">
-        <p>© 2026 ShopNow. All rights reserved.</p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i> ShopNow</a>
+          <p>Your ultimate destination for premium shopping experiences. Quality products, unbeatable prices, and exceptional service.</p>
+          <div class="social-links">
+            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop All</a></li>
+            <li><a href="cart.html">Shopping Cart</a></li>
+            <li><a href="wishlist.html">My Wishlist</a></li>
+            <li><a href="account.html">My Account</a></li>
+            <li><a href="checkout.html">Checkout</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="shop.html?cat=electronics">Electronics</a></li>
+            <li><a href="shop.html?cat=fashion">Fashion</a></li>
+            <li><a href="shop.html?cat=home">Home &amp; Living</a></li>
+            <li><a href="shop.html?cat=sports">Sports &amp; Fitness</a></li>
+            <li><a href="shop.html?cat=beauty">Beauty &amp; Care</a></li>
+            <li><a href="shop.html?cat=books">Books</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Customer Care</h4>
+          <ul>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <ul class="contact-list">
+            <li><i class="fas fa-map-marker-alt"></i> 123, MG Road, Bangalore, Karnataka 560001</li>
+            <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+            <li><i class="fas fa-envelope"></i> support@shopnow.in</li>
+            <li><i class="fas fa-clock"></i> Mon–Sun, 9 AM – 9 PM IST</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 ShopNow Pvt. Ltd. All rights reserved. Made with <i class="fas fa-heart" style="color:#f5576c"></i> in India</p>
         <div class="payment-icons">
-          <i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-paypal"></i>
+          <i class="fab fa-cc-visa" title="Visa"></i>
+          <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+          <i class="fab fa-cc-paypal" title="PayPal"></i>
+          <i class="fab fa-cc-amex" title="Amex"></i>
+          <i class="fab fa-google-pay" title="Google Pay"></i>
         </div>
       </div>
     </div>
   </footer>
 
+  <!-- ===== TOAST ===== -->
   <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
-  <button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="back-to-top" id="backToTop" title="Back to top"><i class="fas fa-arrow-up"></i></button>
 
   <script src="js/data.js"></script>
   <script src="js/utils.js"></script>
