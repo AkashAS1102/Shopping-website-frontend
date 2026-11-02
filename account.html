@@ -3,158 +3,535 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Account – ShopNow</title>
+  <meta name="description" content="Manage your ShopNow profile, track orders, save delivery addresses, and view your loyalty rewards."/>
+  <meta name="theme-color" content="#667eea"/>
+  <title>My Account &amp; Orders – ShopNow</title>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="css/animations.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 </head>
 <body>
+
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div class="announcement-bar" id="announcementBar">
+    <div class="announcement-inner">
+      <span>🎉 Join ShopNow VIP Club — Get 15% OFF your next order with code <strong>WELCOME</strong></span>
+    </div>
+    <button class="announcement-close" id="closeAnnouncement" title="Close"><i class="fas fa-times"></i></button>
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
   <header class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i><span>ShopNow</span></a>
+      <a href="index.html" class="logo">
+        <i class="fas fa-shopping-bag"></i>
+        <span>ShopNow</span>
+      </a>
+
       <nav class="nav-links" id="navLinks">
-        <a href="index.html">Home</a><a href="shop.html">Shop</a>
-        <a href="index.html#categories">Categories</a><a href="contact.html">Contact</a>
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="shop.html" class="dropdown-trigger">Shop <i class="fas fa-chevron-down fa-xs"></i></a>
+          <div class="dropdown-menu">
+            <a href="shop.html?cat=electronics"><i class="fas fa-laptop"></i> Electronics</a>
+            <a href="shop.html?cat=fashion"><i class="fas fa-tshirt"></i> Fashion</a>
+            <a href="shop.html?cat=home"><i class="fas fa-couch"></i> Home &amp; Living</a>
+            <a href="shop.html?cat=sports"><i class="fas fa-dumbbell"></i> Sports</a>
+            <a href="shop.html?cat=beauty"><i class="fas fa-spray-can-sparkles"></i> Beauty</a>
+            <a href="shop.html?cat=books"><i class="fas fa-book-open"></i> Books</a>
+          </div>
+        </div>
+        <a href="index.html#categories">Categories</a>
+        <a href="index.html#deals">Deals</a>
+        <a href="contact.html">Contact</a>
       </nav>
+
       <div class="nav-actions">
-        <a href="wishlist.html" class="icon-btn"><i class="fas fa-heart"></i><span class="badge" id="wishlistBadge">0</span></a>
-        <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartBadge">0</span></a>
-        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        <div class="search-bar" id="searchBarDesktop">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search products, brands…" autocomplete="off"/>
+          <div class="search-suggestions" id="searchSuggestions"></div>
+        </div>
+        <button class="icon-btn search-mobile-btn" id="searchMobileBtn" title="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        <a href="wishlist.html" class="icon-btn" title="Wishlist">
+          <i class="fas fa-heart"></i>
+          <span class="badge" id="wishlistBadge">0</span>
+        </a>
+        <a href="cart.html" class="icon-btn cart-icon-btn" title="Cart" id="cartNavBtn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="badge" id="cartBadge">0</span>
+        </a>
+        <a href="account.html" class="icon-btn active" title="Account">
+          <i class="fas fa-user"></i>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
+    </div>
+
+    <!-- Mobile Search Bar -->
+    <div class="mobile-search-bar" id="mobileSearchBar">
+      <input type="text" id="mobileSearchInput" placeholder="Search products…"/>
+      <button id="mobileSearchSubmit"><i class="fas fa-search"></i></button>
+      <button id="mobileSearchClose"><i class="fas fa-times"></i></button>
     </div>
   </header>
 
+  <!-- ===== PAGE HERO ===== -->
   <div class="page-hero">
     <h1>My <span class="highlight">Account</span></h1>
-    <nav class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right"></i> Account</nav>
+    <p>Manage your account settings, track past orders, and customize your preferences</p>
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="fas fa-chevron-right"></i>
+      <span>Account</span>
+    </nav>
   </div>
 
-  <!-- Login / Register or Dashboard -->
+  <!-- ===== MAIN ACCOUNT SECTION ===== -->
   <section class="container section" id="accountSection">
-    <!-- AUTH FORMS (shown when logged out) -->
+
+    <!-- AUTHENTICATION PANELS (When logged out) -->
     <div id="authForms">
       <div class="auth-tabs">
-        <button class="auth-tab active" id="loginTab">Login</button>
-        <button class="auth-tab" id="registerTab">Register</button>
+        <button class="auth-tab active" id="loginTab"><i class="fas fa-sign-in-alt"></i> Login</button>
+        <button class="auth-tab" id="registerTab"><i class="fas fa-user-plus"></i> Register</button>
       </div>
 
       <!-- Login Form -->
       <div class="auth-form-wrap" id="loginForm">
         <form id="loginFormEl">
+          <h3 style="font-size:1.25rem;font-weight:800;margin-bottom:1.25rem;text-align:center;">Welcome Back!</h3>
+          
           <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="loginEmail" placeholder="john@email.com" required/>
+            <label for="loginEmail">Email Address</label>
+            <input type="email" id="loginEmail" placeholder="yourname@example.com" required/>
           </div>
+
           <div class="form-group">
-            <label>Password</label>
+            <label for="loginPass">Password</label>
             <div class="password-wrap">
               <input type="password" id="loginPass" placeholder="••••••••" required/>
-              <button type="button" class="eye-btn" data-target="loginPass"><i class="fas fa-eye"></i></button>
+              <button type="button" class="eye-btn" data-target="loginPass" title="Toggle visibility"><i class="fas fa-eye"></i></button>
             </div>
           </div>
+
           <div class="form-check-row">
-            <label class="filter-check"><input type="checkbox"> Remember me</label>
-            <a href="#" class="link">Forgot password?</a>
+            <label class="filter-check"><input type="checkbox" id="rememberMe"> Remember me</label>
+            <a href="#" class="link" id="forgotPassLink">Forgot password?</a>
           </div>
-          <button type="submit" class="btn btn-primary full-width">Login <i class="fas fa-sign-in-alt"></i></button>
-          <p class="auth-switch">Don't have an account? <a href="#" id="toRegister">Register here</a></p>
+
+          <button type="submit" class="btn btn-primary full-width" style="padding:.85rem;justify-content:center;">
+            Login <i class="fas fa-arrow-right"></i>
+          </button>
+
+          <!-- Social Login Divider -->
+          <div style="display:flex;align-items:center;margin:1.5rem 0;color:var(--text-muted);font-size:.8rem;">
+            <div style="flex:1;height:1px;background:var(--border);"></div>
+            <span style="padding:0 .75rem;">OR CONTINUE WITH</span>
+            <div style="flex:1;height:1px;background:var(--border);"></div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;">
+            <button type="button" class="btn btn-outline" id="googleLoginBtn" style="justify-content:center;padding:.65rem;font-size:.85rem;">
+              <i class="fab fa-google" style="color:#ea4335"></i> Google
+            </button>
+            <button type="button" class="btn btn-outline" id="facebookLoginBtn" style="justify-content:center;padding:.65rem;font-size:.85rem;">
+              <i class="fab fa-facebook-f" style="color:#1877f2"></i> Facebook
+            </button>
+          </div>
+
+          <p class="auth-switch">Don't have an account yet? <a href="#" id="toRegister">Create an account</a></p>
         </form>
       </div>
 
       <!-- Register Form -->
       <div class="auth-form-wrap hidden" id="registerForm">
         <form id="registerFormEl">
+          <h3 style="font-size:1.25rem;font-weight:800;margin-bottom:1.25rem;text-align:center;">Create Your Account</h3>
+
           <div class="form-row">
             <div class="form-group">
               <label>First Name *</label>
-              <input type="text" placeholder="John" required/>
+              <input type="text" id="regFirstName" placeholder="John" required/>
             </div>
             <div class="form-group">
               <label>Last Name *</label>
-              <input type="text" placeholder="Doe" required/>
+              <input type="text" id="regLastName" placeholder="Doe" required/>
             </div>
           </div>
+
           <div class="form-group">
-            <label>Email *</label>
-            <input type="email" placeholder="john@email.com" required/>
+            <label>Email Address *</label>
+            <input type="email" id="regEmail" placeholder="john@example.com" required/>
           </div>
+
           <div class="form-group">
-            <label>Phone</label>
-            <input type="tel" placeholder="+91 98765 43210"/>
+            <label>Mobile Number</label>
+            <input type="tel" id="regPhone" placeholder="+91 98765 43210"/>
           </div>
+
           <div class="form-group">
-            <label>Password *</label>
+            <label>Create Password *</label>
             <div class="password-wrap">
-              <input type="password" id="regPass" placeholder="Min. 8 characters" required/>
+              <input type="password" id="regPass" placeholder="At least 8 characters" required/>
               <button type="button" class="eye-btn" data-target="regPass"><i class="fas fa-eye"></i></button>
             </div>
+            <!-- Password Strength Bar -->
+            <div class="password-strength">
+              <div class="strength-bar"><div class="strength-fill" id="strengthFill" style="width:0%"></div></div>
+              <div class="strength-text" id="strengthText">Password strength</div>
+            </div>
           </div>
+
           <div class="form-group">
-            <label class="filter-check"><input type="checkbox" required> I agree to the <a href="#" class="link">Terms & Conditions</a></label>
+            <label class="filter-check">
+              <input type="checkbox" required/>
+              I agree to the <a href="#" class="link">Terms of Service</a> &amp; <a href="#" class="link">Privacy Policy</a>
+            </label>
           </div>
-          <button type="submit" class="btn btn-primary full-width">Create Account <i class="fas fa-user-plus"></i></button>
-          <p class="auth-switch">Already have an account? <a href="#" id="toLogin">Login here</a></p>
+
+          <button type="submit" class="btn btn-primary full-width" style="padding:.85rem;justify-content:center;">
+            Create Free Account <i class="fas fa-user-check"></i>
+          </button>
+
+          <p class="auth-switch">Already registered? <a href="#" id="toLogin">Log in to existing account</a></p>
         </form>
       </div>
     </div>
 
-    <!-- DASHBOARD (shown when logged in) -->
+    <!-- USER DASHBOARD (When logged in) -->
     <div id="dashboard" class="hidden">
       <div class="dashboard-layout">
+
+        <!-- Sidebar Navigation -->
         <aside class="dashboard-sidebar">
           <div class="user-avatar-big" id="userAvatarBig">A</div>
-          <div class="user-name-big" id="userNameBig">User</div>
-          <nav class="dashboard-nav">
-            <button class="dash-tab active" data-tab="orders"><i class="fas fa-box"></i> My Orders</button>
-            <button class="dash-tab" data-tab="profile"><i class="fas fa-user"></i> Profile</button>
-            <button class="dash-tab" data-tab="addresses"><i class="fas fa-map-marker-alt"></i> Addresses</button>
-            <button class="dash-tab" data-tab="wishlist"><i class="fas fa-heart"></i> Wishlist</button>
-            <button class="dash-tab logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
-          </nav>
-        </aside>
-        <main class="dashboard-main">
-          <div class="dash-panel active" id="tabOrders">
-            <h3>My Orders</h3>
-            <div class="orders-list" id="ordersList">
-              <div class="empty-state"><i class="fas fa-box-open"></i><p>No orders yet. <a href="shop.html">Start shopping!</a></p></div>
+          <div class="user-name-big" id="userNameBig">Rahul Sharma</div>
+          <div class="user-email-small" id="userEmailSmall">rahul@example.com</div>
+          <div class="user-badge"><i class="fas fa-crown"></i> Gold Tier VIP</div>
+
+          <!-- Mini Wallet & Stats Card -->
+          <div style="background:var(--bg);border-radius:var(--radius);padding:.85rem;margin-bottom:1.5rem;text-align:left;border:1px solid var(--border-light);">
+            <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.4rem;">
+              <span style="color:var(--text-light);"><i class="fas fa-wallet" style="color:var(--primary)"></i> Wallet:</span>
+              <strong>₹1,500.00</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:.82rem;">
+              <span style="color:var(--text-light);"><i class="fas fa-coins" style="color:var(--warning)"></i> Reward Points:</span>
+              <strong>450 Pts</strong>
             </div>
           </div>
-          <div class="dash-panel" id="tabProfile">
-            <h3>Edit Profile</h3>
-            <form class="checkout-form">
-              <div class="form-row">
-                <div class="form-group"><label>First Name</label><input type="text" placeholder="John"/></div>
-                <div class="form-group"><label>Last Name</label><input type="text" placeholder="Doe"/></div>
+
+          <!-- Tab Navigation -->
+          <nav class="dashboard-nav">
+            <button class="dash-tab active" data-tab="orders"><i class="fas fa-box"></i> My Orders</button>
+            <button class="dash-tab" data-tab="profile"><i class="fas fa-user-gear"></i> Edit Profile</button>
+            <button class="dash-tab" data-tab="addresses"><i class="fas fa-map-location-dot"></i> Saved Addresses</button>
+            <button class="dash-tab" data-tab="payments"><i class="fas fa-credit-card"></i> Saved Cards</button>
+            <button class="dash-tab" data-tab="wishlist"><i class="fas fa-heart"></i> Saved Wishlist</button>
+            <button class="dash-tab" data-tab="notifications"><i class="fas fa-bell"></i> Preferences</button>
+            <button class="dash-tab logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+          </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="dashboard-main">
+
+          <!-- 1. ORDERS PANEL -->
+          <div class="dash-panel active" id="tabOrders">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border);">
+              <h3 style="margin:0;border:none;padding:0;">Order History</h3>
+              <div style="display:flex;gap:.5rem;">
+                <button class="tab active" style="padding:.35rem .85rem;font-size:.8rem;" data-order-filter="all">All</button>
+                <button class="tab" style="padding:.35rem .85rem;font-size:.8rem;" data-order-filter="Processing">Processing</button>
+                <button class="tab" style="padding:.35rem .85rem;font-size:.8rem;" data-order-filter="Delivered">Delivered</button>
               </div>
-              <div class="form-group"><label>Email</label><input type="email" placeholder="john@email.com"/></div>
-              <div class="form-group"><label>Phone</label><input type="tel" placeholder="+91 98765 43210"/></div>
-              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+            <div class="orders-list" id="ordersList">
+              <!-- Dynamically populated by account.js -->
+            </div>
+          </div>
+
+          <!-- 2. EDIT PROFILE PANEL -->
+          <div class="dash-panel" id="tabProfile">
+            <h3>Profile Settings</h3>
+            <form id="profileForm" class="checkout-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Full Name</label>
+                  <input type="text" id="profName" placeholder="Rahul Sharma" required/>
+                </div>
+                <div class="form-group">
+                  <label>Phone Number</label>
+                  <input type="tel" id="profPhone" placeholder="+91 98765 43210"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="profEmail" placeholder="rahul@example.com" required/>
+              </div>
+
+              <!-- Avatar Selection Options -->
+              <div class="form-group">
+                <label>Select Profile Initial Avatar Color</label>
+                <div style="display:flex;gap:.75rem;margin-top:.5rem;">
+                  <button type="button" class="avatar-color-btn" data-grad="linear-gradient(135deg,#667eea,#764ba2)" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);border:2px solid #fff;box-shadow:0 0 0 2px var(--primary);"></button>
+                  <button type="button" class="avatar-color-btn" data-grad="linear-gradient(135deg,#f093fb,#f5576c)" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f093fb,#f5576c);border:2px solid #fff;"></button>
+                  <button type="button" class="avatar-color-btn" data-grad="linear-gradient(135deg,#43e97b,#38f9d7)" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#43e97b,#38f9d7);border:2px solid #fff;"></button>
+                  <button type="button" class="avatar-color-btn" data-grad="linear-gradient(135deg,#4facfe,#00f2fe)" style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4facfe,#00f2fe);border:2px solid #fff;"></button>
+                </div>
+              </div>
+
+              <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);">
+                <h4 style="font-size:1rem;font-weight:700;margin-bottom:1rem;">Change Password</h4>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Current Password</label>
+                    <input type="password" placeholder="••••••••"/>
+                  </div>
+                  <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" placeholder="Min. 8 characters"/>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary" style="margin-top:1rem;">
+                <i class="fas fa-check"></i> Save Changes
+              </button>
             </form>
           </div>
+
+          <!-- 3. SAVED ADDRESSES PANEL -->
           <div class="dash-panel" id="tabAddresses">
-            <h3>Saved Addresses</h3>
-            <div class="empty-state"><i class="fas fa-map-pin"></i><p>No addresses saved yet.</p></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border);">
+              <h3 style="margin:0;border:none;padding:0;">Delivery Addresses</h3>
+              <button class="btn btn-primary" id="addNewAddrBtn" style="padding:.5rem 1rem;font-size:.85rem;">
+                <i class="fas fa-plus"></i> Add New Address
+              </button>
+            </div>
+            <div id="addressBookList" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:1rem;">
+              <!-- Dynamically populated by account.js -->
+            </div>
           </div>
+
+          <!-- 4. SAVED PAYMENT METHODS -->
+          <div class="dash-panel" id="tabPayments">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border);">
+              <h3 style="margin:0;border:none;padding:0;">Saved Payment Cards</h3>
+              <button class="btn btn-primary" id="addNewCardBtn" style="padding:.5rem 1rem;font-size:.85rem;">
+                <i class="fas fa-plus"></i> Add Card
+              </button>
+            </div>
+            <div id="cardsList" style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:1rem;">
+              <!-- Sample card representation -->
+              <div style="background:linear-gradient(135deg,#1f2937,#111827);color:#fff;border-radius:var(--radius);padding:1.5rem;position:relative;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+                  <i class="fas fa-sim-card" style="font-size:1.75rem;color:#f59e0b"></i>
+                  <i class="fab fa-cc-visa" style="font-size:2rem;"></i>
+                </div>
+                <div style="font-size:1.1rem;letter-spacing:2px;font-family:monospace;margin-bottom:1rem;">•••• •••• •••• 4242</div>
+                <div style="display:flex;justify-content:space-between;font-size:.78rem;opacity:.8;">
+                  <span>CARDHOLDER<br><strong style="font-size:.9rem;opacity:1;">RAHUL SHARMA</strong></span>
+                  <span>EXPIRES<br><strong style="font-size:.9rem;opacity:1;">08/28</strong></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. WISHLIST PANEL -->
           <div class="dash-panel" id="tabWishlist">
-            <h3>Wishlist</h3>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border);">
+              <h3 style="margin:0;border:none;padding:0;">Wishlist Items</h3>
+              <a href="wishlist.html" class="btn btn-outline" style="padding:.45rem .85rem;font-size:.85rem;">View Full Wishlist</a>
+            </div>
             <div id="dashWishlistGrid" class="products-grid"></div>
           </div>
+
+          <!-- 6. PREFERENCES & NOTIFICATIONS -->
+          <div class="dash-panel" id="tabNotifications">
+            <h3>Communication &amp; Preferences</h3>
+            <div style="display:flex;flex-direction:column;gap:1.25rem;">
+              <label class="filter-check" style="justify-content:space-between;padding:.75rem;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border-light);">
+                <div><strong>Order Status Updates</strong><div style="font-size:.8rem;color:var(--text-muted)">Get real-time tracking emails and SMS</div></div>
+                <input type="checkbox" checked/>
+              </label>
+              <label class="filter-check" style="justify-content:space-between;padding:.75rem;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border-light);">
+                <div><strong>Exclusive Flash Deals &amp; Discounts</strong><div style="font-size:.8rem;color:var(--text-muted)">Receive promotional coupon alerts before sales go live</div></div>
+                <input type="checkbox" checked/>
+              </label>
+              <label class="filter-check" style="justify-content:space-between;padding:.75rem;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border-light);">
+                <div><strong>Price Drop Alerts</strong><div style="font-size:.8rem;color:var(--text-muted)">Notify when items in my wishlist get discounted</div></div>
+                <input type="checkbox" checked/>
+              </label>
+              <button type="button" class="btn btn-primary" onclick="showToast('Preferences saved successfully!')" style="width:fit-content;margin-top:.5rem;">
+                Save Notification Settings
+              </button>
+            </div>
+          </div>
+
         </main>
       </div>
     </div>
   </section>
 
+  <!-- ===== ADD ADDRESS MODAL ===== -->
+  <div class="modal-overlay" id="addressModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(3px);">
+    <div style="background:var(--white);border-radius:var(--radius-lg);padding:2rem;max-width:500px;width:90%;max-height:90vh;overflow-y:auto;position:relative;">
+      <button id="closeAddressModal" style="position:absolute;top:1rem;right:1rem;background:none;font-size:1.2rem;color:var(--text-light);"><i class="fas fa-times"></i></button>
+      <h3 style="margin-bottom:1.25rem;"><i class="fas fa-map-pin" style="color:var(--primary)"></i> Add Delivery Address</h3>
+      <form id="newAddressForm" class="checkout-form" style="padding:0;border:none;">
+        <div class="form-group">
+          <label>Address Label (e.g. Home, Office)</label>
+          <input type="text" id="newAddrTag" placeholder="Home" required/>
+        </div>
+        <div class="form-group">
+          <label>Street Address</label>
+          <input type="text" id="newAddrStreet" placeholder="House/Flat No, Street Name" required/>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" id="newAddrCity" placeholder="Bangalore" required/>
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <input type="text" id="newAddrState" placeholder="Karnataka" required/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>PIN Code</label>
+          <input type="text" id="newAddrPin" placeholder="560001" maxlength="6" required/>
+        </div>
+        <button type="submit" class="btn btn-primary full-width" style="justify-content:center;margin-top:1rem;">Save Address</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== ORDER TRACKING MODAL ===== -->
+  <div class="modal-overlay" id="trackingModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;align-items:center;justify-content:center;backdrop-filter:blur(3px);">
+    <div style="background:var(--white);border-radius:var(--radius-lg);padding:2rem;max-width:550px;width:90%;position:relative;">
+      <button id="closeTrackingModal" style="position:absolute;top:1rem;right:1rem;background:none;font-size:1.2rem;color:var(--text-light);"><i class="fas fa-times"></i></button>
+      <h3 style="margin-bottom:.5rem;"><i class="fas fa-truck" style="color:var(--primary)"></i> Shipment Tracker</h3>
+      <div style="color:var(--text-muted);font-size:.85rem;margin-bottom:1.5rem;" id="trackingOrderId">Order #SN-000000</div>
+      
+      <div style="display:flex;flex-direction:column;gap:1.5rem;position:relative;padding-left:1.5rem;border-left:2px solid var(--primary);margin-left:1rem;">
+        <div style="position:relative;">
+          <div style="position:absolute;left:-1.95rem;top:0;width:14px;height:14px;border-radius:50%;background:var(--success);border:2px solid #fff;"></div>
+          <strong>Order Confirmed</strong>
+          <div style="font-size:.8rem;color:var(--text-muted);">Payment verified and order accepted</div>
+        </div>
+        <div style="position:relative;">
+          <div style="position:absolute;left:-1.95rem;top:0;width:14px;height:14px;border-radius:50%;background:var(--primary);border:2px solid #fff;"></div>
+          <strong>Packed &amp; Dispatched</strong>
+          <div style="font-size:.8rem;color:var(--text-muted);">Package has left the Bangalore Fulfillment Hub</div>
+        </div>
+        <div style="position:relative;">
+          <div style="position:absolute;left:-1.95rem;top:0;width:14px;height:14px;border-radius:50%;background:var(--border);border:2px solid #fff;"></div>
+          <strong style="color:var(--text-muted);">Out for Delivery</strong>
+          <div style="font-size:.8rem;color:var(--text-muted);">Courier partner will deliver to your doorstep</div>
+        </div>
+      </div>
+      
+      <button type="button" class="btn btn-outline full-width" onclick="document.getElementById('trackingModal').style.display='none';" style="margin-top:2rem;justify-content:center;">Close Tracker</button>
+    </div>
+  </div>
+
+  <!-- ===== CART SIDEBAR (fly-out) ===== -->
+  <div class="cart-sidebar-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebarEl">
+    <div class="cart-sidebar-header">
+      <h3><i class="fas fa-shopping-cart"></i> My Cart (<span id="sideCartCount">0</span>)</h3>
+      <button id="closeSideCart"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-sidebar-items" id="sideCartItems"></div>
+    <div class="cart-sidebar-footer">
+      <div class="side-cart-total">Total: <strong id="sideCartTotal">₹0</strong></div>
+      <a href="cart.html" class="btn btn-outline full-width" style="margin-bottom:.5rem">View Full Cart</a>
+      <a href="checkout.html" class="btn btn-primary full-width">Checkout <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </aside>
+
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container">
-      <div class="footer-bottom" style="border-top:none;padding-top:2rem;">
-        <p>© 2026 ShopNow. All rights reserved.</p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i> ShopNow</a>
+          <p>Your ultimate destination for premium shopping experiences. Quality products, unbeatable prices, and exceptional service.</p>
+          <div class="social-links">
+            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop All</a></li>
+            <li><a href="cart.html">Shopping Cart</a></li>
+            <li><a href="wishlist.html">My Wishlist</a></li>
+            <li><a href="account.html">My Account</a></li>
+            <li><a href="checkout.html">Checkout</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="shop.html?cat=electronics">Electronics</a></li>
+            <li><a href="shop.html?cat=fashion">Fashion</a></li>
+            <li><a href="shop.html?cat=home">Home &amp; Living</a></li>
+            <li><a href="shop.html?cat=sports">Sports &amp; Fitness</a></li>
+            <li><a href="shop.html?cat=beauty">Beauty &amp; Care</a></li>
+            <li><a href="shop.html?cat=books">Books</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Customer Care</h4>
+          <ul>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <ul class="contact-list">
+            <li><i class="fas fa-map-marker-alt"></i> 123, MG Road, Bangalore, Karnataka 560001</li>
+            <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+            <li><i class="fas fa-envelope"></i> support@shopnow.in</li>
+            <li><i class="fas fa-clock"></i> Mon–Sun, 9 AM – 9 PM IST</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 ShopNow Pvt. Ltd. All rights reserved. Made with <i class="fas fa-heart" style="color:#f5576c"></i> in India</p>
+        <div class="payment-icons">
+          <i class="fab fa-cc-visa" title="Visa"></i>
+          <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+          <i class="fab fa-cc-paypal" title="PayPal"></i>
+          <i class="fab fa-google-pay" title="Google Pay"></i>
+        </div>
       </div>
     </div>
   </footer>
 
+  <!-- ===== TOAST ===== -->
   <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
-  <button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="back-to-top" id="backToTop" title="Back to top"><i class="fas fa-arrow-up"></i></button>
 
   <script src="js/data.js"></script>
   <script src="js/utils.js"></script>
