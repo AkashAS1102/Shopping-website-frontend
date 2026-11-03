@@ -3,82 +3,274 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cart – ShopNow</title>
+  <meta name="description" content="View your ShopNow shopping cart, apply coupon codes, and proceed to secure checkout."/>
+  <meta name="theme-color" content="#667eea"/>
+  <title>Your Shopping Cart – ShopNow</title>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="css/animations.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div class="announcement-bar" id="announcementBar">
+    <div class="announcement-inner">
+      <span>🎉 MEGA SALE — Use code <strong>FLASH50</strong> for 50% OFF on Electronics! &nbsp;|&nbsp; Free shipping on orders over ₹499 &nbsp;|&nbsp; 30-day easy returns</span>
+    </div>
+    <button class="announcement-close" id="closeAnnouncement" title="Close"><i class="fas fa-times"></i></button>
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
   <header class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i><span>ShopNow</span></a>
+      <a href="index.html" class="logo">
+        <i class="fas fa-shopping-bag"></i>
+        <span>ShopNow</span>
+      </a>
+
       <nav class="nav-links" id="navLinks">
-        <a href="index.html">Home</a><a href="shop.html">Shop</a>
-        <a href="index.html#categories">Categories</a><a href="index.html#deals">Deals</a><a href="contact.html">Contact</a>
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="shop.html" class="dropdown-trigger">Shop <i class="fas fa-chevron-down fa-xs"></i></a>
+          <div class="dropdown-menu">
+            <a href="shop.html?cat=electronics"><i class="fas fa-laptop"></i> Electronics</a>
+            <a href="shop.html?cat=fashion"><i class="fas fa-tshirt"></i> Fashion</a>
+            <a href="shop.html?cat=home"><i class="fas fa-couch"></i> Home &amp; Living</a>
+            <a href="shop.html?cat=sports"><i class="fas fa-dumbbell"></i> Sports</a>
+            <a href="shop.html?cat=beauty"><i class="fas fa-spray-can-sparkles"></i> Beauty</a>
+            <a href="shop.html?cat=books"><i class="fas fa-book-open"></i> Books</a>
+          </div>
+        </div>
+        <a href="index.html#categories">Categories</a>
+        <a href="index.html#deals">Deals</a>
+        <a href="contact.html">Contact</a>
       </nav>
+
       <div class="nav-actions">
-        <a href="wishlist.html" class="icon-btn"><i class="fas fa-heart"></i><span class="badge" id="wishlistBadge">0</span></a>
-        <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartBadge">0</span></a>
-        <a href="account.html" class="icon-btn"><i class="fas fa-user"></i></a>
-        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        <div class="search-bar" id="searchBarDesktop">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search products, brands…" autocomplete="off"/>
+          <div class="search-suggestions" id="searchSuggestions"></div>
+        </div>
+        <button class="icon-btn search-mobile-btn" id="searchMobileBtn" title="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        <a href="wishlist.html" class="icon-btn" title="Wishlist">
+          <i class="fas fa-heart"></i>
+          <span class="badge" id="wishlistBadge">0</span>
+        </a>
+        <a href="cart.html" class="icon-btn active" title="Cart" id="cartNavBtn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="badge" id="cartBadge">0</span>
+        </a>
+        <a href="account.html" class="icon-btn" title="Account">
+          <i class="fas fa-user"></i>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
+    </div>
+
+    <!-- Mobile Search Bar -->
+    <div class="mobile-search-bar" id="mobileSearchBar">
+      <input type="text" id="mobileSearchInput" placeholder="Search products…"/>
+      <button id="mobileSearchSubmit"><i class="fas fa-search"></i></button>
+      <button id="mobileSearchClose"><i class="fas fa-times"></i></button>
     </div>
   </header>
 
+  <!-- ===== PAGE HERO ===== -->
   <div class="page-hero">
     <h1>Shopping <span class="highlight">Cart</span></h1>
-    <nav class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right"></i> Cart</nav>
+    <p>Review your selected items and unlock extra discounts</p>
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="fas fa-chevron-right"></i>
+      <a href="shop.html">Shop</a>
+      <i class="fas fa-chevron-right"></i>
+      <span>Cart</span>
+    </nav>
   </div>
 
+  <!-- ===== CART LAYOUT ===== -->
   <section class="cart-layout container section">
+    <!-- LEFT: ITEMS LIST -->
     <div class="cart-items-wrap" id="cartItemsWrap">
-      <!-- Populated by JS -->
+      <!-- Populated dynamically by cart.js -->
     </div>
 
+    <!-- RIGHT: ORDER SUMMARY & CHECKOUT -->
     <aside class="cart-summary" id="cartSummary">
       <div class="summary-card">
-        <h3>Order Summary</h3>
-        <div class="summary-row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
-        <div class="summary-row"><span>Discount</span><span id="discountRow" class="text-green">-₹0</span></div>
-        <div class="summary-row"><span>Delivery</span><span id="deliveryRow">₹49</span></div>
-        <div class="summary-divider"></div>
-        <div class="summary-row total"><span>Total</span><span id="total">₹0</span></div>
-
-        <div class="coupon-wrap">
-          <input type="text" id="couponInput" placeholder="Enter coupon code"/>
-          <button id="applyCoupon" class="btn btn-outline">Apply</button>
+        <h3><i class="fas fa-receipt" style="color:var(--primary);margin-right:.4rem"></i> Order Summary</h3>
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="subtotal">₹0</span>
         </div>
-        <div id="couponMsg"></div>
+        <div class="summary-row">
+          <span>Promo Discount</span>
+          <span id="discountRow" class="text-green">-₹0</span>
+        </div>
+        <div class="summary-row">
+          <span>Delivery Charge</span>
+          <span id="deliveryRow">₹49</span>
+        </div>
+        <div class="summary-row" style="font-size:.82rem;color:var(--text-muted)">
+          <span>Estimated Taxes &amp; GST</span>
+          <span>Included</span>
+        </div>
+        <div class="summary-divider"></div>
+        <div class="summary-row total">
+          <span>Grand Total</span>
+          <span id="total">₹0</span>
+        </div>
 
-        <a href="checkout.html" class="btn btn-primary full-width" id="checkoutBtn">
+        <!-- Coupon Section -->
+        <div style="margin-top:1.25rem;">
+          <label style="font-size:.85rem;font-weight:600;display:block;margin-bottom:.4rem;">Have a Coupon Code?</label>
+          <div class="coupon-wrap">
+            <input type="text" id="couponInput" placeholder="e.g. FLASH50, SAVE10" style="text-transform:uppercase"/>
+            <button id="applyCoupon" class="btn btn-outline" style="white-space:nowrap;">Apply</button>
+          </div>
+          <div id="couponMsg"></div>
+        </div>
+
+        <!-- Available Coupon Suggestions -->
+        <div style="background:var(--bg);border-radius:var(--radius-sm);padding:.85rem;margin-top:.75rem;border:1px dashed var(--border);">
+          <div style="font-size:.78rem;font-weight:700;color:var(--text-light);margin-bottom:.5rem;text-transform:uppercase;letter-spacing:.4px;">
+            <i class="fas fa-tags" style="color:var(--primary)"></i> Available Coupons
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.4rem;">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:.8rem;">
+              <span><strong style="color:var(--primary)">FLASH50</strong> (50% Off Electronics)</span>
+              <button class="btn-text" onclick="document.getElementById('couponInput').value='FLASH50';document.getElementById('applyCoupon').click();">Apply</button>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:.8rem;">
+              <span><strong style="color:var(--primary)">SAVE10</strong> (10% Off All Items)</span>
+              <button class="btn-text" onclick="document.getElementById('couponInput').value='SAVE10';document.getElementById('applyCoupon').click();">Apply</button>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:.8rem;">
+              <span><strong style="color:var(--primary)">FLAT100</strong> (₹100 Off ₹500+)</span>
+              <button class="btn-text" onclick="document.getElementById('couponInput').value='FLAT100';document.getElementById('applyCoupon').click();">Apply</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <a href="checkout.html" class="btn btn-primary full-width" id="checkoutBtn" style="margin-top:1.5rem;justify-content:center;padding:1rem;">
           Proceed to Checkout <i class="fas fa-arrow-right"></i>
         </a>
-        <a href="shop.html" class="btn btn-outline full-width" style="margin-top:.75rem">
+        <a href="shop.html" class="btn btn-outline full-width" style="margin-top:.75rem;justify-content:center;">
           <i class="fas fa-arrow-left"></i> Continue Shopping
         </a>
       </div>
 
-      <div class="secure-badge">
-        <i class="fas fa-lock"></i> Secure checkout · SSL Encrypted
+      <!-- Trust Badges -->
+      <div class="secure-badge" style="margin-top:1.25rem;">
+        <i class="fas fa-shield-halved"></i> 256-bit Bank Grade SSL Encryption
+      </div>
+      <div style="display:flex;justify-content:center;gap:.75rem;margin-top:.75rem;font-size:1.5rem;color:var(--text-muted);">
+        <i class="fab fa-cc-visa" title="Visa"></i>
+        <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+        <i class="fab fa-cc-paypal" title="PayPal"></i>
+        <i class="fab fa-google-pay" title="GPay"></i>
       </div>
     </aside>
   </section>
 
+  <!-- ===== CART SIDEBAR (fly-out) ===== -->
+  <div class="cart-sidebar-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebarEl">
+    <div class="cart-sidebar-header">
+      <h3><i class="fas fa-shopping-cart"></i> My Cart (<span id="sideCartCount">0</span>)</h3>
+      <button id="closeSideCart"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-sidebar-items" id="sideCartItems"></div>
+    <div class="cart-sidebar-footer">
+      <div class="side-cart-total">Total: <strong id="sideCartTotal">₹0</strong></div>
+      <a href="cart.html" class="btn btn-outline full-width" style="margin-bottom:.5rem">View Full Cart</a>
+      <a href="checkout.html" class="btn btn-primary full-width">Checkout <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </aside>
+
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container">
-      <div class="footer-bottom" style="border-top:none;padding-top:2rem;">
-        <p>© 2026 ShopNow. All rights reserved.</p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i> ShopNow</a>
+          <p>Your ultimate destination for premium shopping experiences. Quality products, unbeatable prices, and exceptional service.</p>
+          <div class="social-links">
+            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop All</a></li>
+            <li><a href="cart.html">Shopping Cart</a></li>
+            <li><a href="wishlist.html">My Wishlist</a></li>
+            <li><a href="account.html">My Account</a></li>
+            <li><a href="checkout.html">Checkout</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="shop.html?cat=electronics">Electronics</a></li>
+            <li><a href="shop.html?cat=fashion">Fashion</a></li>
+            <li><a href="shop.html?cat=home">Home &amp; Living</a></li>
+            <li><a href="shop.html?cat=sports">Sports &amp; Fitness</a></li>
+            <li><a href="shop.html?cat=beauty">Beauty &amp; Care</a></li>
+            <li><a href="shop.html?cat=books">Books</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Customer Care</h4>
+          <ul>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <ul class="contact-list">
+            <li><i class="fas fa-map-marker-alt"></i> 123, MG Road, Bangalore, Karnataka 560001</li>
+            <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+            <li><i class="fas fa-envelope"></i> support@shopnow.in</li>
+            <li><i class="fas fa-clock"></i> Mon–Sun, 9 AM – 9 PM IST</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 ShopNow Pvt. Ltd. All rights reserved. Made with <i class="fas fa-heart" style="color:#f5576c"></i> in India</p>
         <div class="payment-icons">
-          <i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-paypal"></i>
+          <i class="fab fa-cc-visa" title="Visa"></i>
+          <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+          <i class="fab fa-cc-paypal" title="PayPal"></i>
+          <i class="fab fa-cc-amex" title="Amex"></i>
+          <i class="fab fa-google-pay" title="Google Pay"></i>
         </div>
       </div>
     </div>
   </footer>
 
+  <!-- ===== TOAST ===== -->
   <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
-  <button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="back-to-top" id="backToTop" title="Back to top"><i class="fas fa-arrow-up"></i></button>
 
   <script src="js/data.js"></script>
   <script src="js/utils.js"></script>
