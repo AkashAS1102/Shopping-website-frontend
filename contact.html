@@ -3,137 +3,433 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contact – ShopNow</title>
+  <meta name="description" content="Contact ShopNow support team 24/7. Get assistance with orders, returns, payments, or locate our centers across India."/>
+  <meta name="theme-color" content="#667eea"/>
+  <title>Contact Us &amp; FAQ – ShopNow</title>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="css/animations.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 </head>
 <body>
+
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div class="announcement-bar" id="announcementBar">
+    <div class="announcement-inner">
+      <span>📞 Need quick help? Our 24/7 Priority Support is online &nbsp;|&nbsp; WhatsApp: +91 98765 43210</span>
+    </div>
+    <button class="announcement-close" id="closeAnnouncement" title="Close"><i class="fas fa-times"></i></button>
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
   <header class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i><span>ShopNow</span></a>
+      <a href="index.html" class="logo">
+        <i class="fas fa-shopping-bag"></i>
+        <span>ShopNow</span>
+      </a>
+
       <nav class="nav-links" id="navLinks">
-        <a href="index.html">Home</a><a href="shop.html">Shop</a>
-        <a href="index.html#categories">Categories</a><a href="index.html#deals">Deals</a>
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="shop.html" class="dropdown-trigger">Shop <i class="fas fa-chevron-down fa-xs"></i></a>
+          <div class="dropdown-menu">
+            <a href="shop.html?cat=electronics"><i class="fas fa-laptop"></i> Electronics</a>
+            <a href="shop.html?cat=fashion"><i class="fas fa-tshirt"></i> Fashion</a>
+            <a href="shop.html?cat=home"><i class="fas fa-couch"></i> Home &amp; Living</a>
+            <a href="shop.html?cat=sports"><i class="fas fa-dumbbell"></i> Sports</a>
+            <a href="shop.html?cat=beauty"><i class="fas fa-spray-can-sparkles"></i> Beauty</a>
+            <a href="shop.html?cat=books"><i class="fas fa-book-open"></i> Books</a>
+          </div>
+        </div>
+        <a href="index.html#categories">Categories</a>
+        <a href="index.html#deals">Deals</a>
         <a href="contact.html" class="active">Contact</a>
       </nav>
+
       <div class="nav-actions">
-        <a href="wishlist.html" class="icon-btn"><i class="fas fa-heart"></i><span class="badge" id="wishlistBadge">0</span></a>
-        <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartBadge">0</span></a>
-        <a href="account.html" class="icon-btn"><i class="fas fa-user"></i></a>
-        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        <div class="search-bar" id="searchBarDesktop">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search products, brands…" autocomplete="off"/>
+          <div class="search-suggestions" id="searchSuggestions"></div>
+        </div>
+        <button class="icon-btn search-mobile-btn" id="searchMobileBtn" title="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        <a href="wishlist.html" class="icon-btn" title="Wishlist">
+          <i class="fas fa-heart"></i>
+          <span class="badge" id="wishlistBadge">0</span>
+        </a>
+        <a href="cart.html" class="icon-btn cart-icon-btn" title="Cart" id="cartNavBtn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="badge" id="cartBadge">0</span>
+        </a>
+        <a href="account.html" class="icon-btn" title="Account">
+          <i class="fas fa-user"></i>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
+    </div>
+
+    <!-- Mobile Search Bar -->
+    <div class="mobile-search-bar" id="mobileSearchBar">
+      <input type="text" id="mobileSearchInput" placeholder="Search products…"/>
+      <button id="mobileSearchSubmit"><i class="fas fa-search"></i></button>
+      <button id="mobileSearchClose"><i class="fas fa-times"></i></button>
     </div>
   </header>
 
+  <!-- ===== PAGE HERO ===== -->
   <div class="page-hero">
     <h1>Contact <span class="highlight">Us</span></h1>
-    <p>We'd love to hear from you. Get in touch!</p>
-    <nav class="breadcrumb"><a href="index.html">Home</a> <i class="fas fa-chevron-right"></i> Contact</nav>
+    <p>We're here to assist you anytime. Reach out through form, email, or live chat.</p>
+    <nav class="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="fas fa-chevron-right"></i>
+      <span>Contact</span>
+    </nav>
   </div>
 
-  <section class="container section">
-    <div class="contact-layout">
-
-      <div class="contact-info">
-        <h2>Get in <span class="highlight">Touch</span></h2>
-        <p>Have questions about an order or need help? We're here 24/7.</p>
-        <div class="contact-item">
-          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
-          <div><strong>Our Office</strong><br/>123 MG Road, Bangalore, Karnataka 560001, India</div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon"><i class="fas fa-phone"></i></div>
-          <div><strong>Phone</strong><br/>+91 98765 43210</div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-          <div><strong>Email</strong><br/>support@shopnow.in</div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon"><i class="fas fa-clock"></i></div>
-          <div><strong>Support Hours</strong><br/>Mon–Sun, 9 AM – 9 PM IST</div>
-        </div>
-        <div class="social-links" style="margin-top:2rem;">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-whatsapp"></i></a>
+  <!-- ===== CONTACT CHANNELS STRIP ===== -->
+  <section class="trust-bar" style="border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="trust-item">
+        <i class="fas fa-phone-volume"></i>
+        <div>
+          <strong>Toll Free Call</strong>
+          <span>+91 98765 43210</span>
         </div>
       </div>
-
-      <div class="contact-form-wrap">
-        <form id="contactForm" class="contact-form">
-          <h3>Send a Message</h3>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Full Name *</label>
-              <input type="text" placeholder="John Doe" required/>
-            </div>
-            <div class="form-group">
-              <label>Email *</label>
-              <input type="email" placeholder="john@email.com" required/>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Subject *</label>
-            <select required>
-              <option value="">Select a subject</option>
-              <option>Order Issue</option>
-              <option>Return / Refund</option>
-              <option>Payment Problem</option>
-              <option>Product Inquiry</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Message *</label>
-            <textarea rows="5" placeholder="Type your message here…" required></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary full-width">
-            Send Message <i class="fas fa-paper-plane"></i>
-          </button>
-        </form>
+      <div class="trust-item">
+        <i class="fab fa-whatsapp" style="color:#25d366"></i>
+        <div>
+          <strong>WhatsApp Support</strong>
+          <span>Instant chat available</span>
+        </div>
       </div>
-    </div>
-
-    <!-- FAQ Section -->
-    <div style="margin-top:4rem;">
-      <div class="section-header">
-        <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+      <div class="trust-item">
+        <i class="fas fa-envelope"></i>
+        <div>
+          <strong>Email Helpdesk</strong>
+          <span>support@shopnow.in</span>
+        </div>
       </div>
-      <div class="faq-list">
-        <div class="faq-item">
-          <button class="faq-question">How long does delivery take? <i class="fas fa-chevron-down"></i></button>
-          <div class="faq-answer"><p>Standard delivery takes 3–5 business days. Express delivery (1–2 days) is available for select pin codes.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">What is the return policy? <i class="fas fa-chevron-down"></i></button>
-          <div class="faq-answer"><p>We offer a 30-day hassle-free return policy. Items must be unused and in original packaging.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">How do I track my order? <i class="fas fa-chevron-down"></i></button>
-          <div class="faq-answer"><p>After placing an order, you'll receive a tracking link via email. You can also track from My Account page.</p></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">Are my payments secure? <i class="fas fa-chevron-down"></i></button>
-          <div class="faq-answer"><p>Yes! All payments are encrypted with SSL and we never store your card details.</p></div>
+      <div class="trust-item">
+        <i class="fas fa-clock"></i>
+        <div>
+          <strong>Operational Hours</strong>
+          <span>24/7, 365 Days</span>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ===== MAIN CONTACT FORM & LOCATIONS ===== -->
+  <section class="container section">
+    <div class="contact-layout">
+
+      <!-- LEFT: CONTACT DETAILS & LOCATIONS -->
+      <div class="contact-info">
+        <span class="section-tag">Reach Out Anytime</span>
+        <h2>Get in <span class="highlight">Touch</span></h2>
+        <p>Whether you have a question about delivery timelines, returns, bulk pricing, or payment methods, our customer advocacy team is ready to help.</p>
+
+        <!-- City Switcher Tabs -->
+        <div style="margin-bottom:1.5rem;">
+          <h4 style="font-size:.9rem;font-weight:700;margin-bottom:.75rem;color:var(--text);">Our Regional Centers</h4>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+            <button class="tab active city-btn" data-city="bangalore">Bangalore (HQ)</button>
+            <button class="tab city-btn" data-city="mumbai">Mumbai Hub</button>
+            <button class="tab city-btn" data-city="delhi">Delhi Center</button>
+          </div>
+        </div>
+
+        <div id="cityDetailsCard" style="background:var(--white);border-radius:var(--radius-lg);padding:1.5rem;border:1.5px solid var(--border);margin-bottom:2rem;">
+          <div class="contact-item" style="margin-bottom:1.25rem;">
+            <div class="contact-icon"><i class="fas fa-building"></i></div>
+            <div>
+              <strong id="cityTitle">Bangalore Corporate Headquarters</strong>
+              <p id="cityAddress">123, MG Road, Silicon Heights, 4th Floor, Bangalore, Karnataka 560001, India</p>
+            </div>
+          </div>
+          <div class="contact-item" style="margin-bottom:1.25rem;">
+            <div class="contact-icon"><i class="fas fa-phone"></i></div>
+            <div>
+              <strong>Regional Desk</strong>
+              <p id="cityPhone">+91 (80) 4123 4567</p>
+            </div>
+          </div>
+          <div class="contact-item" style="margin-bottom:0;">
+            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <strong>Direct Email</strong>
+              <p id="cityEmail">bangalore.office@shopnow.in</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Media Links -->
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <span style="font-weight:700;font-size:.9rem;color:var(--text);">Connect on Social:</span>
+          <div class="social-links">
+            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: INTERACTIVE CONTACT FORM -->
+      <div class="contact-form-wrap">
+        <form id="contactForm" class="contact-form">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
+            <h3 style="margin:0;"><i class="fas fa-paper-plane" style="color:var(--primary);margin-right:.4rem"></i> Send a Message</h3>
+            <span style="font-size:.78rem;color:var(--text-muted);">Avg. response: &lt; 15 mins</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cName">Your Name *</label>
+              <input type="text" id="cName" placeholder="John Doe" required/>
+            </div>
+            <div class="form-group">
+              <label for="cEmail">Email Address *</label>
+              <input type="email" id="cEmail" placeholder="john@example.com" required/>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cPhone">Phone Number</label>
+              <input type="tel" id="cPhone" placeholder="+91 98765 43210"/>
+            </div>
+            <div class="form-group">
+              <label for="cOrder">Order Number (if applicable)</label>
+              <input type="text" id="cOrder" placeholder="e.g. SN-942851"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cSubject">What can we help you with? *</label>
+            <select id="cSubject" required>
+              <option value="">Select an inquiry topic</option>
+              <option value="delivery">Where is my order / Delivery status</option>
+              <option value="returns">Product Return &amp; Refund Request</option>
+              <option value="payment">Payment Failure / Billing query</option>
+              <option value="product">Product Details &amp; Stock Availability</option>
+              <option value="coupon">Discount Code &amp; Promo inquiry</option>
+              <option value="feedback">General Feedback &amp; Suggestions</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="cMessage">Message Details *</label>
+            <textarea id="cMessage" rows="5" placeholder="Please describe your query in detail so we can resolve it quickly…" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary full-width" style="padding:1rem;justify-content:center;">
+            Send Inquiry <i class="fas fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ===== REAL-TIME SEARCHABLE FAQ SECTION ===== -->
+    <div style="margin-top:5rem;">
+      <div class="section-header">
+        <span class="section-tag">Instant Answers</span>
+        <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+        <p>Find answers to common questions about orders, payments, warranties, and deliveries</p>
+        
+        <!-- Live FAQ Search Bar -->
+        <div style="max-width:550px;margin:1.5rem auto 0;position:relative;">
+          <input type="text" id="faqSearchInput" placeholder="Search questions (e.g. refund, return, shipping, payment)…" style="width:100%;padding:.85rem 1.25rem;border-radius:30px;border:1.5px solid var(--border);box-shadow:var(--shadow-sm);font-size:.925rem;background:var(--white);"/>
+          <i class="fas fa-search" style="position:absolute;right:1.25rem;top:50%;transform:translateY(-50%);color:var(--text-muted)"></i>
+        </div>
+      </div>
+
+      <!-- FAQ Accordion List -->
+      <div class="faq-list" id="faqAccordionList">
+        <div class="faq-item" data-keywords="delivery shipping time days speed express">
+          <button class="faq-question">How long does standard and express delivery take? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer">
+            <p>Standard delivery typically takes <strong>3–5 business days</strong> across most metropolitan cities and tier-1/tier-2 towns in India. For select pin codes in Bangalore, Mumbai, and Delhi, Express Next-Day Delivery is available at checkout for ₹99.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-keywords="return refund 30 days replacement policy">
+          <button class="faq-question">What is your return and refund policy? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer">
+            <p>We provide a <strong>30-day no-questions-asked return policy</strong> on all eligible items. Once you initiate a return from your Account dashboard, our courier will pick up the item within 48 hours. Refunds are credited to your original payment method or wallet within 3–5 business days.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-keywords="track order shipment courier status link">
+          <button class="faq-question">How can I track my package in real time? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer">
+            <p>After placing an order, you will receive an SMS and email with your AWB tracking link. You can also visit your <a href="account.html" class="link">Account Dashboard</a> and tap "Track Shipment" on any active order to see live milestones.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-keywords="payment cod cash on delivery upi card emi secure">
+          <button class="faq-question">What payment methods do you support? Is COD available? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer">
+            <p>We support Credit/Debit Cards (Visa, MasterCard, RuPay, Amex), UPI (Google Pay, PhonePe, Paytm), Net Banking across 50+ Indian banks, and <strong>Cash on Delivery (COD)</strong> for orders up to ₹10,000.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-keywords="discount coupon code promo flash50 save10">
+          <button class="faq-question">How do I apply a discount coupon code? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer">
+            <p>You can enter promotional codes such as <code>FLASH50</code> or <code>SAVE10</code> directly inside your Cart or at the Checkout page. The discount amount will immediately reflect in your Grand Total summary.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-keywords="cancel order cancellation change address">
+          <button class="faq-question">Can I cancel or change an order after placing it? <i class="fas fa-chevron-down"></i></button>
+          <div class="faq-answer">
+            <p>Yes, orders can be cancelled anytime before they are marked as "Dispatched" directly from the Orders section in your Account. If you need to update the delivery address, contact our live support team right away.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LIVE CHAT SIMULATOR FLOATING WIDGET ===== -->
+  <div id="chatWidgetContainer" style="position:fixed;bottom:2rem;right:5.5rem;z-index:1200;">
+    <button id="openChatBtn" style="background:var(--grad-primary);color:#fff;border-radius:30px;padding:.75rem 1.25rem;display:flex;align-items:center;gap:.5rem;box-shadow:var(--shadow-lg);font-weight:700;font-size:.875rem;border:none;">
+      <i class="fas fa-comments" style="font-size:1.1rem"></i> Live Support <span class="online-dot"></span>
+    </button>
+  </div>
+
+  <!-- Live Chat Dialog Box -->
+  <div id="liveChatModal" style="display:none;position:fixed;bottom:5.5rem;right:2rem;width:340px;height:450px;background:var(--white);border-radius:var(--radius-lg);box-shadow:var(--shadow-xl);border:1.5px solid var(--border);z-index:1300;flex-direction:column;overflow:hidden;">
+    <div style="background:var(--grad-primary);color:#fff;padding:1rem;display:flex;justify-content:space-between;align-items:center;">
+      <div style="display:flex;align-items:center;gap:.5rem;">
+        <i class="fas fa-robot"></i>
+        <div>
+          <strong style="font-size:.9rem;display:block;">ShopNow AI Assistant</strong>
+          <span style="font-size:.72rem;opacity:.85;">Online · Replies instantly</span>
+        </div>
+      </div>
+      <button id="closeChatBtn" style="background:none;color:#fff;font-size:1rem;border:none;"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- Messages Window -->
+    <div id="chatMessages" style="flex:1;padding:1rem;overflow-y:auto;display:flex;flex-direction:column;gap:.75rem;font-size:.85rem;">
+      <div style="background:var(--bg);padding:.75rem 1rem;border-radius:var(--radius-sm);max-width:85%;align-self:flex-start;color:var(--text);">
+        Hi there! 👋 How can I help you today? Ask me about order tracking, delivery time, returns, or discount codes!
+      </div>
+    </div>
+
+    <!-- Quick Prompt Pills -->
+    <div style="display:flex;gap:.35rem;padding:.5rem;background:var(--bg-alt);overflow-x:auto;">
+      <button class="chat-quick-btn" style="white-space:nowrap;font-size:.72rem;background:var(--white);border:1px solid var(--border);padding:.25rem .5rem;border-radius:12px;">Track Order</button>
+      <button class="chat-quick-btn" style="white-space:nowrap;font-size:.72rem;background:var(--white);border:1px solid var(--border);padding:.25rem .5rem;border-radius:12px;">Return Policy</button>
+      <button class="chat-quick-btn" style="white-space:nowrap;font-size:.72rem;background:var(--white);border:1px solid var(--border);padding:.25rem .5rem;border-radius:12px;">Promo Codes</button>
+    </div>
+
+    <!-- Input Box -->
+    <form id="chatForm" style="display:flex;padding:.5rem;border-top:1px solid var(--border);">
+      <input type="text" id="chatInput" placeholder="Type a message…" style="flex:1;padding:.5rem .75rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.85rem;"/>
+      <button type="submit" style="background:var(--primary);color:#fff;border-radius:var(--radius-sm);padding:.5rem .85rem;margin-left:.35rem;border:none;"><i class="fas fa-paper-plane"></i></button>
+    </form>
+  </div>
+
+  <!-- ===== CART SIDEBAR (fly-out) ===== -->
+  <div class="cart-sidebar-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebarEl">
+    <div class="cart-sidebar-header">
+      <h3><i class="fas fa-shopping-cart"></i> My Cart (<span id="sideCartCount">0</span>)</h3>
+      <button id="closeSideCart"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-sidebar-items" id="sideCartItems"></div>
+    <div class="cart-sidebar-footer">
+      <div class="side-cart-total">Total: <strong id="sideCartTotal">₹0</strong></div>
+      <a href="cart.html" class="btn btn-outline full-width" style="margin-bottom:.5rem">View Full Cart</a>
+      <a href="checkout.html" class="btn btn-primary full-width">Checkout <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </aside>
+
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container">
-      <div class="footer-bottom" style="border-top:none;padding-top:2rem;">
-        <p>© 2026 ShopNow. All rights reserved.</p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i> ShopNow</a>
+          <p>Your ultimate destination for premium shopping experiences. Quality products, unbeatable prices, and exceptional service.</p>
+          <div class="social-links">
+            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop All</a></li>
+            <li><a href="cart.html">Shopping Cart</a></li>
+            <li><a href="wishlist.html">My Wishlist</a></li>
+            <li><a href="account.html">My Account</a></li>
+            <li><a href="checkout.html">Checkout</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="shop.html?cat=electronics">Electronics</a></li>
+            <li><a href="shop.html?cat=fashion">Fashion</a></li>
+            <li><a href="shop.html?cat=home">Home &amp; Living</a></li>
+            <li><a href="shop.html?cat=sports">Sports &amp; Fitness</a></li>
+            <li><a href="shop.html?cat=beauty">Beauty &amp; Care</a></li>
+            <li><a href="shop.html?cat=books">Books</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Customer Care</h4>
+          <ul>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <ul class="contact-list">
+            <li><i class="fas fa-map-marker-alt"></i> 123, MG Road, Bangalore, Karnataka 560001</li>
+            <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+            <li><i class="fas fa-envelope"></i> support@shopnow.in</li>
+            <li><i class="fas fa-clock"></i> Mon–Sun, 9 AM – 9 PM IST</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 ShopNow Pvt. Ltd. All rights reserved. Made with <i class="fas fa-heart" style="color:#f5576c"></i> in India</p>
+        <div class="payment-icons">
+          <i class="fab fa-cc-visa" title="Visa"></i>
+          <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+          <i class="fab fa-cc-paypal" title="PayPal"></i>
+          <i class="fab fa-google-pay" title="Google Pay"></i>
+        </div>
       </div>
     </div>
   </footer>
 
+  <!-- ===== TOAST ===== -->
   <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
-  <button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="back-to-top" id="backToTop" title="Back to top"><i class="fas fa-arrow-up"></i></button>
 
   <script src="js/data.js"></script>
   <script src="js/utils.js"></script>
