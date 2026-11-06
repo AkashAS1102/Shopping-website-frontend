@@ -3,51 +3,213 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Product – ShopNow</title>
+  <meta name="description" content="View product specifications, customer reviews, pricing, and fast delivery options on ShopNow."/>
+  <meta name="theme-color" content="#667eea"/>
+  <title>Product Details – ShopNow</title>
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="css/animations.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 </head>
 <body>
+
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div class="announcement-bar" id="announcementBar">
+    <div class="announcement-inner">
+      <span>🎉 MEGA SALE — Use code <strong>FLASH50</strong> for 50% OFF on Electronics! &nbsp;|&nbsp; Free shipping on orders over ₹499 &nbsp;|&nbsp; 30-day easy returns</span>
+    </div>
+    <button class="announcement-close" id="closeAnnouncement" title="Close"><i class="fas fa-times"></i></button>
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
   <header class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i><span>ShopNow</span></a>
+      <a href="index.html" class="logo">
+        <i class="fas fa-shopping-bag"></i>
+        <span>ShopNow</span>
+      </a>
+
       <nav class="nav-links" id="navLinks">
-        <a href="index.html">Home</a><a href="shop.html" class="active">Shop</a>
-        <a href="index.html#categories">Categories</a><a href="contact.html">Contact</a>
+        <a href="index.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="shop.html" class="dropdown-trigger active">Shop <i class="fas fa-chevron-down fa-xs"></i></a>
+          <div class="dropdown-menu">
+            <a href="shop.html?cat=electronics"><i class="fas fa-laptop"></i> Electronics</a>
+            <a href="shop.html?cat=fashion"><i class="fas fa-tshirt"></i> Fashion</a>
+            <a href="shop.html?cat=home"><i class="fas fa-couch"></i> Home &amp; Living</a>
+            <a href="shop.html?cat=sports"><i class="fas fa-dumbbell"></i> Sports</a>
+            <a href="shop.html?cat=beauty"><i class="fas fa-spray-can-sparkles"></i> Beauty</a>
+            <a href="shop.html?cat=books"><i class="fas fa-book-open"></i> Books</a>
+          </div>
+        </div>
+        <a href="index.html#categories">Categories</a>
+        <a href="index.html#deals">Deals</a>
+        <a href="contact.html">Contact</a>
       </nav>
+
       <div class="nav-actions">
-        <a href="wishlist.html" class="icon-btn"><i class="fas fa-heart"></i><span class="badge" id="wishlistBadge">0</span></a>
-        <a href="cart.html" class="icon-btn"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartBadge">0</span></a>
-        <a href="account.html" class="icon-btn"><i class="fas fa-user"></i></a>
-        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        <div class="search-bar" id="searchBarDesktop">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" placeholder="Search products, brands…" autocomplete="off"/>
+          <div class="search-suggestions" id="searchSuggestions"></div>
+        </div>
+        <button class="icon-btn search-mobile-btn" id="searchMobileBtn" title="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        <a href="wishlist.html" class="icon-btn" title="Wishlist">
+          <i class="fas fa-heart"></i>
+          <span class="badge" id="wishlistBadge">0</span>
+        </a>
+        <a href="cart.html" class="icon-btn cart-icon-btn" title="Cart" id="cartNavBtn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="badge" id="cartBadge">0</span>
+        </a>
+        <a href="account.html" class="icon-btn" title="Account">
+          <i class="fas fa-user"></i>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
       </div>
+    </div>
+
+    <!-- Mobile Search Bar -->
+    <div class="mobile-search-bar" id="mobileSearchBar">
+      <input type="text" id="mobileSearchInput" placeholder="Search products…"/>
+      <button id="mobileSearchSubmit"><i class="fas fa-search"></i></button>
+      <button id="mobileSearchClose"><i class="fas fa-times"></i></button>
     </div>
   </header>
 
-  <section class="product-detail container section" id="productDetail">
-    <!-- Populated by JS -->
+  <!-- ===== PRODUCT DETAIL HERO SECTION ===== -->
+  <main class="container section" style="padding-top:calc(var(--nav-h) + 2rem);padding-bottom:3rem;">
+    <section class="product-detail" id="productDetail">
+      <!-- Populated dynamically by product.js -->
+      <div class="spinner"></div>
+    </section>
+  </main>
+
+  <!-- ===== TRUST GUARANTEES ===== -->
+  <section class="trust-bar" style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+    <div class="container">
+      <div class="trust-item"><i class="fas fa-truck-fast"></i><div><strong>Express Delivery</strong><span>Fast doorstep delivery across India</span></div></div>
+      <div class="trust-item"><i class="fas fa-shield-halved"></i><div><strong>100% Authentic</strong><span>Directly sourced from verified brands</span></div></div>
+      <div class="trust-item"><i class="fas fa-rotate-left"></i><div><strong>Easy 30-Day Return</strong><span>Instant pickup and hassle-free refund</span></div></div>
+      <div class="trust-item"><i class="fas fa-headset"></i><div><strong>24/7 Support</strong><span>Dedicated customer assistance anytime</span></div></div>
+    </div>
   </section>
 
-  <!-- Related Products -->
+  <!-- ===== RELATED PRODUCTS SECTION ===== -->
   <section class="section container">
     <div class="section-header">
+      <span class="section-tag">Recommendations</span>
       <h2>You May Also <span class="highlight">Like</span></h2>
+      <p>Customers who viewed this item also loved these top picks</p>
     </div>
     <div class="products-grid" id="relatedGrid"></div>
   </section>
 
+  <!-- ===== RECENTLY VIEWED PRODUCTS ===== -->
+  <section class="section container" style="padding-top:1rem;">
+    <div class="section-header">
+      <span class="section-tag">History</span>
+      <h2>Recently <span class="highlight">Viewed</span></h2>
+      <p>Pick up right where you left off</p>
+    </div>
+    <div class="products-grid" id="recentGrid"></div>
+  </section>
+
+  <!-- ===== CART SIDEBAR (fly-out) ===== -->
+  <div class="cart-sidebar-overlay" id="cartOverlay"></div>
+  <aside class="cart-sidebar" id="cartSidebarEl">
+    <div class="cart-sidebar-header">
+      <h3><i class="fas fa-shopping-cart"></i> My Cart (<span id="sideCartCount">0</span>)</h3>
+      <button id="closeSideCart"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-sidebar-items" id="sideCartItems"></div>
+    <div class="cart-sidebar-footer">
+      <div class="side-cart-total">Total: <strong id="sideCartTotal">₹0</strong></div>
+      <a href="cart.html" class="btn btn-outline full-width" style="margin-bottom:.5rem">View Full Cart</a>
+      <a href="checkout.html" class="btn btn-primary full-width">Checkout <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </aside>
+
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container">
-      <div class="footer-bottom" style="border-top:none;padding-top:2rem;">
-        <p>© 2026 ShopNow. All rights reserved.</p>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo"><i class="fas fa-shopping-bag"></i> ShopNow</a>
+          <p>Your ultimate destination for premium shopping experiences. Quality products, unbeatable prices, and exceptional service.</p>
+          <div class="social-links">
+            <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop All</a></li>
+            <li><a href="cart.html">Shopping Cart</a></li>
+            <li><a href="wishlist.html">My Wishlist</a></li>
+            <li><a href="account.html">My Account</a></li>
+            <li><a href="checkout.html">Checkout</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="shop.html?cat=electronics">Electronics</a></li>
+            <li><a href="shop.html?cat=fashion">Fashion</a></li>
+            <li><a href="shop.html?cat=home">Home &amp; Living</a></li>
+            <li><a href="shop.html?cat=sports">Sports &amp; Fitness</a></li>
+            <li><a href="shop.html?cat=beauty">Beauty &amp; Care</a></li>
+            <li><a href="shop.html?cat=books">Books</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Customer Care</h4>
+          <ul>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Shipping Info</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Track Order</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Contact</h4>
+          <ul class="contact-list">
+            <li><i class="fas fa-map-marker-alt"></i> 123, MG Road, Bangalore, Karnataka 560001</li>
+            <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+            <li><i class="fas fa-envelope"></i> support@shopnow.in</li>
+            <li><i class="fas fa-clock"></i> Mon–Sun, 9 AM – 9 PM IST</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 ShopNow Pvt. Ltd. All rights reserved. Made with <i class="fas fa-heart" style="color:#f5576c"></i> in India</p>
+        <div class="payment-icons">
+          <i class="fab fa-cc-visa" title="Visa"></i>
+          <i class="fab fa-cc-mastercard" title="Mastercard"></i>
+          <i class="fab fa-cc-paypal" title="PayPal"></i>
+          <i class="fab fa-cc-amex" title="Amex"></i>
+          <i class="fab fa-google-pay" title="Google Pay"></i>
+        </div>
       </div>
     </div>
   </footer>
 
+  <!-- ===== TOAST ===== -->
   <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
-  <button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="back-to-top" id="backToTop" title="Back to top"><i class="fas fa-arrow-up"></i></button>
 
   <script src="js/data.js"></script>
   <script src="js/utils.js"></script>
