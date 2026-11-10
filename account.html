@@ -48,6 +48,17 @@
       </nav>
 
       <div class="nav-actions">
+        <div class="currency-select-wrap">
+          <select class="currency-select" aria-label="Select Currency">
+            <option value="INR">₹ INR</option>
+            <option value="USD">$ USD</option>
+            <option value="EUR">€ EUR</option>
+            <option value="GBP">£ GBP</option>
+          </select>
+        </div>
+        <button class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Dark/Light Mode">
+          <i class="fas fa-moon"></i>
+        </button>
         <div class="search-bar" id="searchBarDesktop">
           <i class="fas fa-search"></i>
           <input type="text" id="searchInput" placeholder="Search products, brands…" autocomplete="off"/>
@@ -526,6 +537,12 @@
       </div>
     </div>
   </footer>
+
+  <!-- ===== QUICK VIEW MODAL CONTAINER ===== -->
+  <div class="modal-overlay" id="quickViewModal"></div>
+
+  <!-- ===== COMPARE DOCK CONTAINER ===== -->
+  <div class="compare-dock" id="compareDock"></div>
 
   <!-- ===== TOAST ===== -->
   <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
