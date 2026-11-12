@@ -37,6 +37,17 @@
       </nav>
 
       <div class="nav-actions">
+        <div class="currency-select-wrap">
+          <select class="currency-select" aria-label="Select Currency">
+            <option value="INR">₹ INR</option>
+            <option value="USD">$ USD</option>
+            <option value="EUR">€ EUR</option>
+            <option value="GBP">£ GBP</option>
+          </select>
+        </div>
+        <button class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Dark/Light Mode">
+          <i class="fas fa-moon"></i>
+        </button>
         <a href="cart.html" class="icon-btn" title="Return to Cart">
           <i class="fas fa-shopping-cart"></i>
           <span class="badge" id="cartBadge">0</span>
@@ -222,6 +233,41 @@
           </label>
         </div>
 
+        <!-- 3D Flippable Credit Card Preview -->
+        <div class="credit-card-3d-wrap" id="card3dWrap">
+          <div class="credit-card-3d-inner" id="card3dInner">
+            <div class="credit-card-face credit-card-front">
+              <div style="display:flex;justify-content:space-between;align-items:center;">
+                <i class="fas fa-microchip" style="font-size:1.8rem;color:#facc15;"></i>
+                <i class="fab fa-cc-visa" id="card3dType" style="font-size:2rem;color:#fff;"></i>
+              </div>
+              <div style="font-size:1.2rem;letter-spacing:3px;font-family:monospace;font-weight:700;margin:1rem 0;" id="card3dNum">
+                •••• •••• •••• ••••
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+                <div>
+                  <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1px;opacity:.7;">Cardholder</div>
+                  <div style="font-size:.85rem;font-weight:700;text-transform:uppercase;" id="card3dName">YOUR NAME</div>
+                </div>
+                <div>
+                  <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:1px;opacity:.7;">Expires</div>
+                  <div style="font-size:.85rem;font-weight:700;" id="card3dExp">MM/YY</div>
+                </div>
+              </div>
+            </div>
+            <div class="credit-card-face credit-card-back">
+              <div class="credit-card-stripe"></div>
+              <div style="padding:0 1.5rem;">
+                <div style="font-size:.65rem;text-align:right;margin-bottom:.2rem;opacity:.7;">CVV</div>
+                <div class="credit-card-cvv-box" id="card3dCvv">•••</div>
+              </div>
+              <div style="font-size:.65rem;text-align:center;opacity:.6;padding:0 1rem;">
+                Authorized Signature · 256-Bit SSL Encrypted
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Card Form -->
         <div class="card-form" id="cardForm">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
@@ -364,7 +410,11 @@
             </div>
           </div>
 
+          <!-- Printable Tax Invoice Container -->
+          <div id="printInvoiceArea" style="display:none;"></div>
+
           <div class="success-actions">
+            <button class="btn btn-outline" id="printInvoiceBtn"><i class="fas fa-print"></i> Print Invoice</button>
             <a href="index.html" class="btn btn-primary"><i class="fas fa-shopping-bag"></i> Continue Shopping</a>
             <a href="account.html" class="btn btn-outline"><i class="fas fa-clock-rotate-left"></i> Track in My Orders</a>
           </div>
