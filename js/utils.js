@@ -806,3 +806,196 @@ document.addEventListener('DOMContentLoaded', () => {
   initSearch();
   initLivePurchasePopup();
 });
+
+
+/* ── 19. CLIPBOARD HELPER ── */
+function copyToClipboard(text, successMsg = 'Copied to clipboard!') {
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('📋 ' + successMsg, 'info');
+    }).catch(() => fallbackCopy(text, successMsg));
+  } else {
+    fallbackCopy(text, successMsg);
+  }
+}
+
+function fallbackCopy(text, successMsg) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try {
+    document.execCommand('copy');
+    showToast('📋 ' + successMsg, 'info');
+  } catch (err) {
+    showToast('❌ Unable to copy', 'error');
+  }
+  document.body.removeChild(ta);
+}
+
+/* ── 20. DEBOUNCE & THROTTLE ── */
+function debounce(func, wait = 250) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+function throttle(func, limit = 300) {
+  let inThrottle;
+  return function(...args) {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => inThrottle = false, limit);
+    }
+  };
+}
+
+/* ── 21. RELATIVE TIME FORMATTER ── */
+function getRelativeTime(date) {
+  const now = new Date();
+  const diffInSeconds = Math.floor((now - new Date(date)) / 1000);
+  if (diffInSeconds < 60) return 'Just now';
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  if (diffInHours < 24) return `${diffInHours}h ago`;
+  const diffInDays = Math.floor(diffInHours / 24);
+  return `${diffInDays}d ago`;
+}
+
+/* ── 22. KEYBOARD SHORTCUTS HANDLER ── */
+function initKeyboardShortcuts() {
+  document.addEventListener('keydown', e => {
+    // Esc closes modals & drawers
+    if (e.key === 'Escape') {
+      closeQuickView();
+      closeSideCart();
+    }
+    // "/" focuses the search bar if not typing in input/textarea
+    if (e.key === '/' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+      e.preventDefault();
+      const searchInput = document.getElementById('globalSearch') || document.querySelector('.search-bar input');
+      if (searchInput) {
+        searchInput.focus();
+        searchInput.select();
+      }
+    }
+    // Alt + C opens side cart drawer
+    if (e.altKey && (e.key === 'c' || e.key === 'C')) {
+      e.preventDefault();
+      openSideCart();
+    }
+  });
+}
+
+/* ── 23. NETWORK STATUS MONITOR (OFFLINE DETECTOR) ── */
+function initOfflineDetector() {
+  window.addEventListener('offline', () => {
+    showToast('⚠️ You are offline. Browsing in cached mode.', 'warning');
+  });
+  window.addEventListener('online', () => {
+    showToast('📶 Connection restored!', 'success');
+  });
+}
+
+/* ── 24. UNDO ACTION TOAST ── */
+let undoTimeout = null;
+function showUndoToast(message, onUndo) {
+  let undoBox = document.getElementById('cartUndoToast');
+  if (!undoBox) {
+    undoBox = document.createElement('div');
+    undoBox.id = 'cartUndoToast';
+    undoBox.className = 'cart-undo-toast';
+    document.body.appendChild(undoBox);
+  }
+  undoBox.innerHTML = `
+    <span>${message}</span>
+    <button class="cart-undo-btn" id="undoActionBtn">Undo</button>
+  `;
+  undoBox.classList.add('show');
+  
+  clearTimeout(undoTimeout);
+  const btn = document.getElementById('undoActionBtn');
+  btn.onclick = () => {
+    undoBox.classList.remove('show');
+    if (typeof onUndo === 'function') onUndo();
+  };
+
+  undoTimeout = setTimeout(() => {
+    undoBox.classList.remove('show');
+  }, 5000);
+}
+
+/* ── 25. CONFETTI EFFECT GENERATOR ── */
+function triggerConfetti(durationMs = 2500) {
+  const colors = ['#ff6b35', '#f5576c', '#4facfe', '#43e97b', '#f9d423', '#9b51e0'];
+  const confettiCount = 60;
+  const container = document.createElement('div');
+  container.style.position = 'fixed';
+  container.style.top = '0';
+  container.style.left = '0';
+  container.style.width = '100vw';
+  container.style.height = '100vh';
+  container.style.pointerEvents = 'none';
+  container.style.zIndex = '999999';
+  container.style.overflow = 'hidden';
+  document.body.appendChild(container);
+
+  for (let i = 0; i < confettiCount; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.top = Math.random() * 20 - 20 + 'px';
+    el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDelay = Math.random() * 0.8 + 's';
+    el.style.transform = `scale(${Math.random() * 0.8 + 0.6})`;
+    container.appendChild(el);
+  }
+
+  setTimeout(() => container.remove(), durationMs);
+}
+
+/* ── 26. RECENTLY VIEWED SHELF RENDERER ── */
+function renderRecentlyViewedShelf(containerId = 'recentlyViewedContainer') {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const products = typeof getRecentlyViewedProducts === 'function' ? getRecentlyViewedProducts() : [];
+  if (!products.length) {
+    container.style.display = 'none';
+    return;
+  }
+  container.style.display = 'block';
+  container.innerHTML = `
+    <div class="recently-viewed-shelf">
+      <div class="shelf-header">
+        <h3 class="shelf-title"><i class="fas fa-history text-primary"></i> Recently Viewed</h3>
+        <span class="text-muted" style="font-size: .85rem;">Items you checked out recently</span>
+      </div>
+      <div class="recently-viewed-grid">
+        ${products.map(p => `
+          <a href="product.html?id=${p.id}" class="recent-mini-card">
+            <img src="${p.img}" alt="${p.name}" loading="lazy">
+            <div class="recent-mini-title">${p.name}</div>
+            <div class="recent-mini-price">${formatPrice(p.price)}</div>
+          </a>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// Auto-run keyboard and offline listeners on page load
+document.addEventListener('DOMContentLoaded', () => {
+  initKeyboardShortcuts();
+  initOfflineDetector();
+});

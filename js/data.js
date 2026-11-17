@@ -746,3 +746,162 @@ function applyCoupon(code, cart, subtotal) {
   if (c.type === 'flat') discount = Math.min(c.discount, subtotal);
   return { valid: true, discount, message: `✅ "${code}" applied! ${c.label}.` };
 }
+
+
+/* ── ADDITIONAL COUPONS ── */
+Object.assign(COUPONS, {
+  'WELCOME500': { type: 'flat', discount: 500, minOrder: 2499, label: '₹500 OFF on orders above ₹2,499' },
+  'SUPERDEAL':  { type: 'percent', discount: 15, minOrder: 1500, label: '15% OFF on orders above ₹1,500' },
+  'FESTIVE25':  { type: 'percent', discount: 25, minOrder: 4999, label: '25% Mega Festive Discount' },
+  'VIPMEMBER':  { type: 'flat', discount: 1000, minOrder: 5000, label: '₹1,000 Flat VIP Discount' }
+});
+
+/* ── FREQUENTLY BOUGHT TOGETHER BUNDLES ── */
+const PRODUCT_BUNDLES = {
+  1: [2, 10], // Sony Headphones + Apple Watch + Wireless Charger
+  2: [1, 10], // Apple Watch + Sony Headphones + Wireless Charger
+  3: [4, 6],  // Nike Air Max + Running Tee + Gym Bag
+  4: [3, 6],  // Levi's Jeans + Nike Shoes + Gym Duffel
+  7: [8, 9],  // Espresso Machine + Coffee Beans + French Press
+  13: [14, 15] // DSLR Camera + Tripod + Camera Bag
+};
+
+/* ── PHYSICAL STORE LOCATIONS (FOR STORE LOCATOR) ── */
+const PHYSICAL_STORES = [
+  { id: 'blr-koramangala', city: 'Bengaluru', name: 'ShopNow Flagship Koramangala', address: '80 Feet Road, 4th Block, Koramangala, Bengaluru, Karnataka 560034', phone: '+91 80 4123 4567', timing: '10:00 AM - 9:30 PM (All Days)', lat: 12.9345, lng: 77.6186 },
+  { id: 'blr-indiranagar', city: 'Bengaluru', name: 'ShopNow 100ft Indiranagar', address: '12th Main Rd, HAL 2nd Stage, Indiranagar, Bengaluru 560038', phone: '+91 80 2520 8899', timing: '10:00 AM - 10:00 PM (All Days)', lat: 12.9719, lng: 77.6412 },
+  { id: 'mum-bandra', city: 'Mumbai', name: 'ShopNow Linking Road Bandra', address: 'Linking Rd, Khar West, Mumbai, Maharashtra 400052', phone: '+91 22 2605 1122', timing: '11:00 AM - 10:00 PM (All Days)', lat: 19.0600, lng: 72.8360 },
+  { id: 'del-connaught', city: 'New Delhi', name: 'ShopNow Inner Circle CP', address: 'Block E, Connaught Place, New Delhi 110001', phone: '+91 11 4350 7788', timing: '10:30 AM - 9:00 PM (All Days)', lat: 28.6328, lng: 77.2197 },
+  { id: 'hyd-hitec', city: 'Hyderabad', name: 'ShopNow Cyber Towers Hitec City', address: 'Cyber Towers Quad, Madhapur, Hyderabad, Telangana 500081', phone: '+91 40 6677 3344', timing: '10:00 AM - 10:00 PM (All Days)', lat: 17.4474, lng: 78.3762 },
+  { id: 'chn-t-nagar', city: 'Chennai', name: 'ShopNow Usman Road T. Nagar', address: 'North Usman Rd, T. Nagar, Chennai, Tamil Nadu 600017', phone: '+91 44 2815 6677', timing: '10:00 AM - 9:30 PM (All Days)', lat: 13.0418, lng: 80.2341 }
+];
+
+/* ── LOYALTY REWARDS SYSTEM ── */
+const LOYALTY_TIERS = {
+  bronze: { name: 'Bronze Explorer', minSpend: 0, multiplier: 1, perk: '1 point per ₹100 spent' },
+  silver: { name: 'Silver Shopper', minSpend: 10000, multiplier: 1.5, perk: '1.5x points + Free standard shipping' },
+  gold:   { name: 'Gold Privileged', minSpend: 25000, multiplier: 2.0, perk: '2x points + Priority 1-day delivery' },
+  vip:    { name: 'Platinum Elite', minSpend: 50000, multiplier: 3.0, perk: '3x points + Dedicated concierge & invites' }
+};
+
+/* ── ADDITIONAL PRODUCTS PUSH (Total expands beyond 40) ── */
+const EXTRA_PRODUCTS = [
+  {
+    id: 37,
+    name: 'Logitech MX Master 3S Wireless Mouse',
+    brand: 'Logitech',
+    cat: 'electronics',
+    price: 8995,
+    originalPrice: 10995,
+    rating: 4.9,
+    reviews: 1420,
+    badge: 'Popular',
+    desc: 'Quiet clicks and 8K DPI any-surface tracking with electromagnetic MagSpeed scrolling for ultimate productivity.',
+    features: ['8000 DPI sensor', 'Quiet click buttons', 'MagSpeed scroll wheel', 'Connect up to 3 devices', 'USB-C fast recharging'],
+    img: 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=600&auto=format&fit=crop&q=80',
+    stock: 24,
+    tags: ['mouse', 'wireless', 'logitech', 'electronics', 'work']
+  },
+  {
+    id: 38,
+    name: 'Marshall Emberton II Portable Bluetooth Speaker',
+    brand: 'Marshall',
+    cat: 'electronics',
+    price: 14999,
+    originalPrice: 17499,
+    rating: 4.8,
+    reviews: 840,
+    badge: 'Trending',
+    desc: 'Compact portable speaker with loud and vibrant 360-degree True Stereophonic Marshall signature sound and 30+ hours of playtime.',
+    features: ['30+ hours playtime', 'IP67 dust & water resistant', 'True Stereophonic multi-directional sound', 'Stack mode support'],
+    img: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?w=600&auto=format&fit=crop&q=80',
+    stock: 15,
+    tags: ['speaker', 'marshall', 'bluetooth', 'audio', 'portable']
+  },
+  {
+    id: 39,
+    name: 'Ray-Ban Wayfarer Classic Polarized Sunglasses',
+    brand: 'Ray-Ban',
+    cat: 'fashion',
+    price: 9290,
+    originalPrice: 11490,
+    rating: 4.7,
+    reviews: 620,
+    badge: 'Best Seller',
+    desc: 'The timeless icon of effortless cool since 1952. Features polarized G-15 crystal green lenses with 100% UV protection.',
+    features: ['Polarized crystal lenses', '100% UV400 protection', 'Durable acetate frame', 'Signature metal rivets'],
+    img: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=600&auto=format&fit=crop&q=80',
+    stock: 35,
+    tags: ['sunglasses', 'ray-ban', 'fashion', 'accessories', 'polarized']
+  },
+  {
+    id: 40,
+    name: 'Philips Smart Air Fryer XXL 1.4kg',
+    brand: 'Philips',
+    cat: 'home',
+    price: 11499,
+    originalPrice: 16995,
+    rating: 4.6,
+    reviews: 2190,
+    badge: 'Sale',
+    desc: 'Rapid Air technology for delicious crispy fries with up to 90% less fat. Features 16-in-1 cooking functions and smart app connectivity.',
+    features: ['16-in-1 functions', 'Rapid Air technology', 'Fat removal tech', 'Dishwasher safe parts', 'NutriU App recipe pairing'],
+    img: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=600&auto=format&fit=crop&q=80',
+    stock: 19,
+    tags: ['airfryer', 'philips', 'kitchen', 'home', 'appliances']
+  }
+];
+
+// Push extra products into main PRODUCTS array
+EXTRA_PRODUCTS.forEach(p => {
+  if (!PRODUCTS.some(existing => existing.id === p.id)) {
+    PRODUCTS.push(p);
+  }
+});
+
+/* ── HELPER: GET BUNDLE PRODUCTS ── */
+function getProductBundle(productId) {
+  const bundleIds = PRODUCT_BUNDLES[productId] || [1, 2];
+  const items = bundleIds.map(id => getProductById(id)).filter(Boolean);
+  const mainProduct = getProductById(productId);
+  if (!mainProduct) return null;
+  const allItems = [mainProduct, ...items];
+  const totalOriginal = allItems.reduce((acc, item) => acc + (item.originalPrice || item.price), 0);
+  const bundleTotal = Math.round(allItems.reduce((acc, item) => acc + item.price, 0) * 0.92); // 8% extra bundle discount
+  const savings = totalOriginal - bundleTotal;
+  return {
+    mainProduct,
+    items,
+    allItems,
+    totalOriginal,
+    bundleTotal,
+    savings
+  };
+}
+
+/* ── HELPER: CALCULATE REWARD POINTS ── */
+function calculateLoyaltyPoints(amountSpent) {
+  return Math.floor(amountSpent / 100);
+}
+
+/* ── HELPER: RECENTLY VIEWED STORAGE HANDLER ── */
+function addRecentlyViewed(productId) {
+  try {
+    let recent = JSON.parse(localStorage.getItem('shopnow_recently_viewed') || '[]');
+    recent = recent.filter(id => id !== productId);
+    recent.unshift(productId);
+    if (recent.length > 8) recent = recent.slice(0, 8);
+    localStorage.setItem('shopnow_recently_viewed', JSON.stringify(recent));
+  } catch (e) {
+    console.warn('Recently viewed storage error', e);
+  }
+}
+
+function getRecentlyViewedProducts() {
+  try {
+    const recent = JSON.parse(localStorage.getItem('shopnow_recently_viewed') || '[]');
+    return recent.map(id => getProductById(id)).filter(Boolean);
+  } catch (e) {
+    return [];
+  }
+}

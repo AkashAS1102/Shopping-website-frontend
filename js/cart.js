@@ -1,5 +1,7 @@
 /* ============================
-   CART.JS v2.0
+   CART.JS v3.0 – Enterprise Cart Engine
+   Gift Wrap Add-on, Pincode Delivery Estimator,
+   Dynamic Free Shipping Progress, Coupons, Save For Later
    ============================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -7,8 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const summary  = document.getElementById('cartSummary');
   const DELIVERY_THRESHOLD = 499;
   const DELIVERY_FEE       = 49;
+  const GIFT_WRAP_FEE      = 49;
+
   let appliedCoupon   = null;
   let appliedDiscount = 0;
+  let giftWrapActive  = false;
 
   // ── Render Cart Items ──
   function renderCart() {
@@ -32,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
     summary?.style.removeProperty('display');
 
     const cartCount = cart.reduce((s, i) => s + i.qty, 0);
-    const inStockCount = cart.filter(i => getProductById(i.id)?.inStock).length;
 
     wrap.innerHTML = `
       <div class="cart-items-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1.5px solid var(--border);">
@@ -71,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="cart-item-right" style="text-align:right;min-width:80px;">
               <div style="font-size:1.1rem;font-weight:800;color:var(--primary)">${formatPrice(lineTotal)}</div>
-              ${getDiscountPercent(p) > 0 ? `<div style="font-size:.75rem;color:var(--success);font-weight:600;">You save ${formatPrice((p.originalPrice - p.price) * item.qty)}</div>` : ''}
+              ${getDiscountPercent(p) > 0 ? `<div style="font-size:.75rem;color:var(--success);font-weight:600;">Save ${formatPrice((p.originalPrice - p.price) * item.qty)}</div>` : ''}
               <button class="action-btn wish-btn ${isWishlisted(p.id) ? 'wishlisted' : ''}" data-id="${p.id}" style="margin-top:.5rem;width:32px;height:32px;" title="Save for later">
                 <i class="fa${isWishlisted(p.id) ? 's' : 'r'} fa-heart"></i>
               </button>
@@ -86,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div><strong style="color:var(--success)">You're saving ${formatPrice(getSavingsTotal(cart))} 🎉</strong><br><span style="font-size:.8rem;color:var(--text-light)">on your current order</span></div>
         </div>` : ''}
 
-      <!-- Delivery notice -->
+      <!-- Delivery progress -->
       ${getCartTotal() < DELIVERY_THRESHOLD && cart.length ? `
         <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:var(--radius);padding:.85rem 1.25rem;margin-top:.75rem;display:flex;align-items:center;gap:.75rem;">
           <i class="fas fa-truck-fast" style="color:#ea580c"></i>
@@ -137,11 +141,25 @@ document.addEventListener('DOMContentLoaded', () => {
     wrap.querySelectorAll('.remove-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = parseInt(btn.dataset.id);
+        const cartItem = getCart().find(i => i.id === id);
         const card = btn.closest('.cart-item');
         if (card) {
           card.style.transition = 'opacity .3s, transform .3s';
           card.style.opacity = '0'; card.style.transform = 'translateX(20px)';
-          setTimeout(() => { removeFromCart(id); renderCart(); showToast('Item removed from cart'); }, 300);
+          setTimeout(() => {
+            removeFromCart(id);
+            renderCart();
+            if (typeof showUndoToast === 'function' && cartItem) {
+              const p = getProductById(id);
+              showUndoToast(`Removed ${p ? p.name : 'item'} from cart`, () => {
+                addToCart(cartItem.id, cartItem.qty, false);
+                renderCart();
+                showToast('Item restored to cart!', 'success');
+              });
+            } else {
+              showToast('Item removed from cart');
+            }
+          }, 300);
         }
       });
     });
@@ -149,7 +167,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Wishlist (save for later)
     wrap.querySelectorAll('.wish-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        const added = toggleWishlist(parseInt(btn.dataset.id));
+        const id = parseInt(btn.dataset.id);
+        const added = toggleWishlist(id);
         btn.classList.toggle('wishlisted', added);
         btn.innerHTML = added ? '<i class="fas fa-heart"></i>' : '<i class="far fa-heart"></i>';
       });
@@ -175,7 +194,8 @@ document.addEventListener('DOMContentLoaded', () => {
       return s + (p ? p.price * i.qty : 0);
     }, 0);
     const delivery = subtotal > 0 && subtotal < DELIVERY_THRESHOLD ? DELIVERY_FEE : 0;
-    const total    = Math.max(0, subtotal - appliedDiscount + delivery);
+    const giftWrap = giftWrapActive ? GIFT_WRAP_FEE : 0;
+    const total    = Math.max(0, subtotal - appliedDiscount + delivery + giftWrap);
 
     const el = id => document.getElementById(id);
     if (el('subtotal'))     el('subtotal').textContent    = formatPrice(subtotal);
@@ -184,12 +204,55 @@ document.addEventListener('DOMContentLoaded', () => {
     if (el('deliveryRow'))  el('deliveryRow').textContent = delivery === 0 && subtotal > 0 ? 'FREE 🎉' : formatPrice(delivery);
     if (el('total'))        el('total').textContent       = formatPrice(total);
 
+    // Reward points estimator
+    const pointsEl = el('cartPointsReward');
+    if (pointsEl && typeof calculateLoyaltyPoints === 'function') {
+      const earned = calculateLoyaltyPoints(total);
+      pointsEl.innerHTML = `<i class="fas fa-coins text-warning"></i> You'll earn <strong>${earned} ShopPoints</strong> on this order!`;
+      pointsEl.style.display = total > 0 ? 'block' : 'none';
+    }
+
     // Checkout button guard
     const checkoutBtn = el('checkoutBtn');
     if (checkoutBtn) {
       checkoutBtn.href = cart.length ? 'checkout.html' : '#';
     }
   }
+
+  // ── Gift Wrap Toggle ──
+  const giftWrapCheck = document.getElementById('giftWrapCheck');
+  const giftWrapCard  = document.getElementById('giftWrapCard');
+  const giftMsgWrap   = document.getElementById('giftMsgWrap');
+
+  giftWrapCheck?.addEventListener('change', () => {
+    giftWrapActive = giftWrapCheck.checked;
+    giftWrapCard?.classList.toggle('active', giftWrapActive);
+    if (giftMsgWrap) giftMsgWrap.style.display = giftWrapActive ? 'block' : 'none';
+    if (giftWrapActive) showToast('🎁 Gift wrap added (+₹49)');
+    updateSummary();
+  });
+
+  // ── Cart Pincode Estimator ──
+  const cartPinInput = document.getElementById('cartPincodeInput');
+  const cartPinBtn   = document.getElementById('cartPincodeBtn');
+  const cartPinRes   = document.getElementById('cartPincodeRes');
+
+  function checkCartPincode() {
+    const val = cartPinInput.value.trim();
+    if (!/^\d{6}$/.test(val)) {
+      cartPinRes.innerHTML = `<span style="color:var(--accent);">Please enter 6-digit PIN.</span>`;
+      return;
+    }
+    cartPinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    setTimeout(() => {
+      cartPinBtn.innerHTML = 'Estimate';
+      const arrDate = new Date(Date.now() + 2 * 86400000).toLocaleDateString('en-IN', { weekday:'short', month:'short', day:'numeric' });
+      cartPinRes.innerHTML = `<span style="color:var(--success);font-weight:600;"><i class="fas fa-truck-fast"></i> Expected delivery by <strong>${arrDate}</strong></span>`;
+    }, 400);
+  }
+
+  cartPinBtn?.addEventListener('click', checkCartPincode);
+  cartPinInput?.addEventListener('keydown', e => { if (e.key === 'Enter') checkCartPincode(); });
 
   // ── Coupon Code ──
   document.getElementById('applyCoupon')?.addEventListener('click', () => {
@@ -212,19 +275,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Allow pressing Enter on coupon input
   document.getElementById('couponInput')?.addEventListener('keydown', e => {
     if (e.key === 'Enter') document.getElementById('applyCoupon')?.click();
   });
 
-  // Checkout guard
   document.getElementById('checkoutBtn')?.addEventListener('click', e => {
     if (!getCart().length) { e.preventDefault(); showToast('⚠️ Add items to cart first!', 'warning'); }
   });
 
+  // ── Cart Recommended Add-ons ──
+  function initCartAddons() {
+    const addonsGrid = document.getElementById('cartAddonsGrid');
+    if (!addonsGrid) return;
+    const addOnCandidates = PRODUCTS.filter(p => p.price <= 2000 && !getCart().some(i => i.id === p.id)).slice(0, 4);
+    if (!addOnCandidates.length) return;
+    addonsGrid.innerHTML = addOnCandidates.map(productCardHTML).join('');
+    bindProductCards(addonsGrid);
+  }
+  initCartAddons();
+
   // ── Init ──
   renderCart();
 
-  // Listen for external cart updates (from side cart etc.)
-  window.addEventListener('cartUpdated', renderCart);
+  window.addEventListener('cartUpdated', () => {
+    renderCart();
+    initCartAddons();
+  });
 });

@@ -198,6 +198,22 @@ document.addEventListener('DOMContentLoaded', () => {
   catFilter?.addEventListener('change', renderWishlist);
   sortSelect?.addEventListener('change', renderWishlist);
 
+  // ── Support Importing Shared Wishlist from URL ──
+  const urlParams = new URLSearchParams(window.location.search);
+  const sharedIds = urlParams.get('shared');
+  if (sharedIds) {
+    const imported = sharedIds.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n));
+    if (imported.length) {
+      const current = getWishlist();
+      const merged = Array.from(new Set([...current, ...imported]));
+      LS.set('sn_wish', merged);
+      updateBadges();
+      showToast(`🎁 Imported ${imported.length} items from shared wishlist!`, 'success');
+      // Clean query parameter from URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }
+
   // ── Init ──
   renderWishlist();
 });

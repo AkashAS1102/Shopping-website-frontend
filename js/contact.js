@@ -92,6 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.style.background = 'var(--success)';
       showToast(`✅ Ticket #${ticketId} created! Our team will respond shortly.`);
 
+      renderSupportTickets();
+
       setTimeout(() => {
         contactForm.reset();
         btn.innerHTML = origHTML;
@@ -219,6 +221,87 @@ document.addEventListener('DOMContentLoaded', () => {
       appendChatMessage(promptText, 'user');
       handleBotResponse(promptText);
     });
+  });
+
+  // ── 6. Support Tickets Table ──
+  function renderSupportTickets() {
+    const tableWrap = document.getElementById('supportTicketsWrap');
+    if (!tableWrap) return;
+    const tickets = LS.get('sn_support_tickets', []);
+    if (!tickets.length) {
+      tableWrap.innerHTML = `
+        <div style="text-align:center;padding:1.5rem;color:var(--text-muted);font-size:.9rem;">
+          <i class="fas fa-ticket-simple" style="font-size:2rem;opacity:.25;margin-bottom:.5rem;display:block;"></i>
+          No open support tickets. Any inquiries you submit will be tracked here.
+        </div>`;
+      return;
+    }
+    tableWrap.innerHTML = `
+      <div class="ticket-table-wrap">
+        <table class="ticket-table">
+          <thead>
+            <tr>
+              <th>Ticket ID</th>
+              <th>Subject</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tickets.map(t => `
+              <tr>
+                <td><strong>${t.ticketId}</strong></td>
+                <td>${t.subject}</td>
+                <td>${new Date(t.date).toLocaleDateString('en-IN')}</td>
+                <td><span class="badge badge-success" style="font-size:.75rem;">${t.status || 'Under Review'}</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+  renderSupportTickets();
+
+  // ── 7. Interactive Store Locator ──
+  function initStoreLocator() {
+    const grid = document.getElementById('storeLocatorGrid');
+    if (!grid || typeof PHYSICAL_STORES === 'undefined') return;
+
+    grid.innerHTML = PHYSICAL_STORES.map((s, idx) => `
+      <div class="store-card ${idx === 0 ? 'selected' : ''}" data-id="${s.id}">
+        <div class="store-card-city"><i class="fas fa-location-dot text-primary"></i> ${s.city}</div>
+        <div style="font-weight:700;font-size:.9rem;color:var(--text);margin-bottom:.25rem;">${s.name}</div>
+        <div class="store-card-address">${s.address}</div>
+        <div class="store-card-timing"><i class="far fa-clock"></i> ${s.timing}</div>
+        <div style="margin-top:.75rem;display:flex;gap:.5rem;">
+          <a href="tel:${s.phone.replace(/\s+/g,'')}" class="btn btn-outline" style="padding:.3rem .6rem;font-size:.78rem;"><i class="fas fa-phone"></i> Call</a>
+          <button class="btn btn-primary" onclick="alert('Opening directions to ${s.name} on Google Maps');" style="padding:.3rem .6rem;font-size:.78rem;"><i class="fas fa-directions"></i> Directions</button>
+        </div>
+      </div>
+    `).join('');
+
+    grid.querySelectorAll('.store-card').forEach(card => {
+      card.addEventListener('click', e => {
+        if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') return;
+        grid.querySelectorAll('.store-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+      });
+    });
+  }
+  initStoreLocator();
+
+  // ── 8. Callback Request Scheduler ──
+  document.getElementById('callbackForm')?.addEventListener('submit', e => {
+    e.preventDefault();
+    const phone = document.getElementById('cbPhone')?.value;
+    const time = document.getElementById('cbTime')?.value;
+    if (!phone) {
+      showToast('Please enter your phone number.', 'warning');
+      return;
+    }
+    showToast(`📞 Callback scheduled for ${time || 'today'} at ${phone}!`);
+    e.target.reset();
   });
 
 });

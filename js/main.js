@@ -1,5 +1,8 @@
 /* ============================
-   MAIN.JS v2.0 – Homepage
+   MAIN.JS v3.0 – Enterprise Homepage
+   Slider, Dynamic Category Product Counters,
+   Flash Sale Progress Simulation, Recently Viewed Shelf,
+   Live Testimonial Rotator, Scroll Progress
    ============================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let current = 0, autoSlide, isPaused = false;
 
   function goToSlide(n) {
+    if (!slides.length) return;
     slides[current].classList.remove('active');
     dots[current].classList.remove('active');
     current = ((n % totalSlides) + totalSlides) % totalSlides;
@@ -22,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startAuto() {
     stopAuto();
-    if (!isPaused) autoSlide = setInterval(() => goToSlide(current + 1), 5500);
+    if (!isPaused && slides.length) autoSlide = setInterval(() => goToSlide(current + 1), 5500);
   }
   function stopAuto() { clearInterval(autoSlide); }
 
@@ -48,16 +52,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Keyboard navigation
   document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
     if (e.key === 'ArrowRight') { goToSlide(current + 1); startAuto(); }
     if (e.key === 'ArrowLeft')  { goToSlide(current - 1); startAuto(); }
   });
 
-  // Pause on visibility hidden
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stopAuto(); else startAuto();
   });
 
   startAuto();
+
+  // ══════════════════════════════
+  //  DYNAMIC CATEGORY BADGES
+  // ══════════════════════════════
+  function updateCategoryCounts() {
+    const counts = {};
+    PRODUCTS.forEach(p => { counts[p.cat] = (counts[p.cat] || 0) + 1; });
+    document.querySelectorAll('.cat-card').forEach(card => {
+      const href = card.getAttribute('href') || '';
+      const match = href.match(/cat=([a-z]+)/);
+      if (match && counts[match[1]]) {
+        const span = card.querySelector('span');
+        if (span) span.textContent = `${counts[match[1]]} Products`;
+      }
+    });
+  }
+  updateCategoryCounts();
 
   // ══════════════════════════════
   //  FEATURED PRODUCTS + TABS
@@ -73,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         : PRODUCTS.filter(p => p.cat === filter && p.inStock).slice(0, 8);
       grid.innerHTML = prods.length
         ? prods.map(productCardHTML).join('')
-        : `<div class="empty-state"><i class="fas fa-box-open"></i><p>No products in this category yet.</p></div>`;
+        : `<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-box-open"></i><p>No products in this category yet.</p></div>`;
       bindProductCards(grid);
       initReveal();
     }
@@ -112,22 +133,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ══════════════════════════════
-  //  COUNTDOWN TIMER
+  //  COUNTDOWN TIMER & FLASH SALE
   // ══════════════════════════════
   function initCountdown() {
     const now = Date.now();
     let endTime = parseInt(LS.get('sn_deal_end', 0));
 
-    // If stored end time is in the past, reset to 6 hours from now
     if (!endTime || endTime < now) {
       endTime = now + (6 * 60 * 60 * 1000);
       LS.set('sn_deal_end', endTime);
     }
 
     const pad = n => String(n).padStart(2, '0');
-    const hoursEl   = document.getElementById('hours');
-    const minsEl    = document.getElementById('minutes');
-    const secsEl    = document.getElementById('seconds');
+    const hoursEl = document.getElementById('hours');
+    const minsEl  = document.getElementById('minutes');
+    const secsEl  = document.getElementById('seconds');
 
     function tick() {
       const diff = endTime - Date.now();
@@ -138,19 +158,36 @@ document.addEventListener('DOMContentLoaded', () => {
       const h = Math.floor(diff / 3600000);
       const m = Math.floor((diff % 3600000) / 60000);
       const s = Math.floor((diff % 60000) / 1000);
-      if (hoursEl)   hoursEl.textContent   = pad(h);
-      if (minsEl)    minsEl.textContent    = pad(m);
-      if (secsEl)    secsEl.textContent    = pad(s);
+      if (hoursEl) hoursEl.textContent = pad(h);
+      if (minsEl)  minsEl.textContent  = pad(m);
+      if (secsEl)  secsEl.textContent  = pad(s);
     }
     tick();
     const interval = setInterval(tick, 1000);
-    // clean up on page hide
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) clearInterval(interval);
     });
     return interval;
   }
   initCountdown();
+
+  // ══════════════════════════════
+  //  FLASH SALE STOCK PROGRESS SIMULATION
+  // ══════════════════════════════
+  function initDealStockSimulator() {
+    const bar = document.querySelector('.deal-stock-bar-inner');
+    if (!bar) return;
+    let claimedPct = 84;
+    setInterval(() => {
+      if (claimedPct < 96 && Math.random() > 0.6) {
+        claimedPct += 1;
+        bar.style.width = claimedPct + '%';
+        const label = document.querySelector('.deal-stock-progress span strong');
+        if (label) label.textContent = `${claimedPct}%`;
+      }
+    }, 18000);
+  }
+  initDealStockSimulator();
 
   // ══════════════════════════════
   //  NEWSLETTER
@@ -161,7 +198,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = input?.value.trim();
     if (!email) return;
 
-    // Save email
     const subs = LS.get('sn_subscribers', []);
     if (!subs.includes(email)) { subs.push(email); LS.set('sn_subscribers', subs); }
 
@@ -169,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const orig = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-check"></i> Subscribed!';
     btn.disabled = true;
-    showToast('🎉 Subscribed! Check your inbox for a 10% discount code.');
+    showToast('🎉 Subscribed! Check your inbox for your 10% discount coupon.');
     setTimeout(() => {
       e.target.reset();
       btn.innerHTML = orig;
@@ -212,24 +248,47 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollProgress();
 
   // ══════════════════════════════
-  //  RECENTLY VIEWED (local track)
-  // ══════════════════════════════
-  // (tracking happens on product page; shown here if needed)
-
-  // ══════════════════════════════
-  //  PRODUCT CARD HOVER: SHOW QUICK INFO
-  // ══════════════════════════════
-  document.querySelectorAll('.product-card').forEach(card => {
-    card.addEventListener('mouseenter', () => card.classList.add('hovered'));
-    card.addEventListener('mouseleave', () => card.classList.remove('hovered'));
-  });
-
-  // ══════════════════════════════
   //  BACK-TO-TOP SMOOTH REVEAL
   // ══════════════════════════════
   const bttBtn = document.getElementById('backToTop');
   if (bttBtn) {
     bttBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   }
+
+  // ══════════════════════════════
+  //  PERSONALIZED GREETING FOR USER
+  // ══════════════════════════════
+  function initPersonalizedGreeting() {
+    const user = LS.get('sn_user', null);
+    const greetingEl = document.getElementById('heroUserGreeting');
+    if (greetingEl && user && user.name) {
+      const firstName = user.name.split(' ')[0];
+      greetingEl.innerHTML = `<i class="fas fa-sparkles"></i> Welcome back, <strong>${firstName}</strong>! Here are top picks for you:`;
+      greetingEl.style.display = 'inline-block';
+    }
+  }
+  initPersonalizedGreeting();
+
+  // ══════════════════════════════
+  //  RECENTLY VIEWED SHELF ON HOME
+  // ══════════════════════════════
+  if (typeof renderRecentlyViewedShelf === 'function') {
+    renderRecentlyViewedShelf('homeRecentlyViewed');
+  }
+
+  // ══════════════════════════════
+  //  LIVE ACTIVE SHOPPERS SIMULATOR
+  // ══════════════════════════════
+  function initLiveShoppersCount() {
+    const shopperEl = document.getElementById('liveShoppersCount');
+    if (!shopperEl) return;
+    let base = 284;
+    setInterval(() => {
+      const delta = Math.floor(Math.random() * 9) - 4;
+      base = Math.max(220, Math.min(390, base + delta));
+      shopperEl.textContent = base;
+    }, 4500);
+  }
+  initLiveShoppersCount();
 
 });

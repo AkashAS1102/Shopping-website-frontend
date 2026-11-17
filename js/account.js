@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderOrders();
     renderAddresses();
     renderDashboardWishlist();
+    renderLoyaltyRewards();
   }
 
   function showAuth() {
@@ -560,6 +561,50 @@ document.addEventListener('DOMContentLoaded', () => {
     grid.innerHTML = products.map(productCardHTML).join('');
     bindProductCards(grid);
   }
+
+  // ── 16. Loyalty Rewards & Referral Program ──
+  function renderLoyaltyRewards() {
+    const points = parseInt(LS.get('sn_points', '350'));
+    const pointsEl = document.getElementById('userLoyaltyPoints');
+    if (pointsEl) pointsEl.textContent = points;
+
+    const referralCode = 'SHOPNOW-' + (user ? user.name.split(' ')[0].toUpperCase() : 'VIP') + '-' + Math.floor(Math.random() * 899 + 100);
+    const codeEl = document.getElementById('userReferralCode');
+    if (codeEl) codeEl.textContent = referralCode;
+  }
+
+  document.getElementById('copyReferralBtn')?.addEventListener('click', () => {
+    const codeEl = document.getElementById('userReferralCode');
+    if (codeEl && typeof copyToClipboard === 'function') {
+      copyToClipboard(codeEl.textContent, 'Referral code copied! Share with friends to earn ₹250.');
+    }
+  });
+
+  // Export Order History to CSV
+  document.getElementById('exportOrdersCSV')?.addEventListener('click', () => {
+    const orders = LS.get('sn_orders', []);
+    if (!orders.length) {
+      showToast('No orders to export.', 'warning');
+      return;
+    }
+    const headers = ['Order ID', 'Date', 'Status', 'Payment Method', 'Items Count', 'Total (INR)'];
+    const rows = orders.map(o => [
+      o.id,
+      `"${o.date}"`,
+      o.status,
+      o.payMethod,
+      o.items ? o.items.length : 1,
+      o.total
+    ]);
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const link = document.createElement('a');
+    link.href = encodeURI(csvContent);
+    link.download = `ShopNow_Orders_${Date.now()}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    showToast('📥 Order history exported to CSV!', 'success');
+  });
 
   // ── Initialize ──
   checkAuthState();
