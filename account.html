@@ -257,10 +257,28 @@
           <div class="dash-panel active" id="tabOrders">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border);">
               <h3 style="margin:0;border:none;padding:0;">Order History</h3>
-              <div style="display:flex;gap:.5rem;">
+              <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;">
+                <button id="exportOrdersCSV" class="btn btn-outline" style="padding:.35rem .75rem;font-size:.8rem;"><i class="fas fa-file-csv"></i> Export CSV</button>
                 <button class="tab active" style="padding:.35rem .85rem;font-size:.8rem;" data-order-filter="all">All</button>
                 <button class="tab" style="padding:.35rem .85rem;font-size:.8rem;" data-order-filter="Processing">Processing</button>
                 <button class="tab" style="padding:.35rem .85rem;font-size:.8rem;" data-order-filter="Delivered">Delivered</button>
+              </div>
+            </div>
+
+            <!-- Loyalty Rewards & Referral Banner -->
+            <div class="loyalty-banner">
+              <div class="loyalty-header">
+                <div>
+                  <h4 style="margin:0;font-size:1.15rem;font-weight:800;">ShopNow Rewards Club</h4>
+                  <p style="margin:.25rem 0 0;font-size:.85rem;opacity:.9;">Earn 1 point per ₹100 spent. Redeem for instant checkout discounts!</p>
+                </div>
+                <div class="loyalty-points-pill">
+                  <i class="fas fa-coins text-warning"></i> <span id="userLoyaltyPoints">350</span> Pts
+                </div>
+              </div>
+              <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.2);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;">
+                <div style="font-size:.85rem;">Your Referral Code: <strong id="userReferralCode" style="background:rgba(255,255,255,0.25);padding:2px 8px;border-radius:4px;letter-spacing:1px;">SHOPNOW-VIP-100</strong></div>
+                <button class="btn btn-primary" id="copyReferralBtn" style="padding:.35rem .85rem;font-size:.8rem;background:#fff;color:#1e3c72;border:none;font-weight:700;"><i class="fas fa-copy"></i> Copy Code</button>
               </div>
             </div>
             <div class="orders-list" id="ordersList">
