@@ -97,7 +97,10 @@
 
       <!-- STEP 1: SHIPPING ADDRESS -->
       <div class="checkout-section active" id="formStep1">
-        <h3><i class="fas fa-truck-fast"></i> Shipping Address</h3>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
+          <h3 style="margin-bottom:0;"><i class="fas fa-truck-fast"></i> Shipping Address</h3>
+          <button type="button" class="btn btn-outline" id="demoFillBtn" style="padding:.35rem .75rem;font-size:.8rem;"><i class="fas fa-wand-magic-sparkles"></i> Autofill Demo Address</button>
+        </div>
         <form id="addressForm" class="checkout-form">
           <div class="form-row">
             <div class="form-group">
