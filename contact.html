@@ -246,6 +246,31 @@
             Send Inquiry <i class="fas fa-paper-plane"></i>
           </button>
         </form>
+
+        <!-- Scheduled Callback Card -->
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-top:1.5rem;">
+          <h4 style="font-size:1rem;font-weight:700;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem;">
+            <i class="fas fa-phone-volume text-primary"></i> Request an Instant Callback
+          </h4>
+          <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:1rem;">Prefer to talk to our product specialists? Leave your number:</p>
+          <form id="callbackForm" style="display:flex;gap:.5rem;flex-wrap:wrap;">
+            <input type="tel" id="cbPhone" placeholder="Enter 10-digit number" required style="flex:1;min-width:180px;padding:.5rem .75rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:.85rem;" />
+            <select id="cbTime" style="padding:.5rem .75rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:.85rem;">
+              <option value="within 15 mins">Within 15 mins</option>
+              <option value="today afternoon">This Afternoon</option>
+              <option value="tomorrow morning">Tomorrow Morning</option>
+            </select>
+            <button type="submit" class="btn btn-primary" style="padding:.5rem 1rem;font-size:.85rem;">Request Call</button>
+          </form>
+        </div>
+
+        <!-- My Past Support Tickets -->
+        <div style="margin-top:1.5rem;">
+          <h4 style="font-size:1rem;font-weight:700;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem;">
+            <i class="fas fa-ticket text-primary"></i> Your Recent Inquiries
+          </h4>
+          <div id="supportTicketsWrap"></div>
+        </div>
       </div>
     </div>
 
@@ -307,6 +332,15 @@
           </div>
         </div>
       </div>
+    </div>
+    <!-- ===== PHYSICAL STORE LOCATOR ===== -->
+    <div style="margin-top:5rem;">
+      <div class="section-header">
+        <span class="section-tag">Experience Centers</span>
+        <h2>Visit Our <span class="highlight">Stores</span></h2>
+        <p>Step into any of our flagship experience hubs across India for hands-on demos &amp; support</p>
+      </div>
+      <div id="storeLocatorGrid" class="store-grid"></div>
     </div>
   </section>
 
