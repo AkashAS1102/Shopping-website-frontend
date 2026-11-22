@@ -96,6 +96,7 @@
     <div class="hero-slides">
       <div class="slide active" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
         <div class="slide-content">
+          <div id="heroUserGreeting" style="display:none;background:rgba(255,255,255,0.18);padding:.35rem .85rem;border-radius:20px;font-size:.85rem;margin-bottom:.75rem;backdrop-filter:blur(6px);color:#fff;"></div>
           <span class="badge-tag">New Arrival ✨</span>
           <h1>Discover Your <br/><span class="gradient-text">Perfect Style</span></h1>
           <p>Explore thousands of premium products at unbeatable prices. Shop the latest trends today.</p>
@@ -106,7 +107,7 @@
           <div class="hero-stats">
             <div class="hero-stat"><strong>50K+</strong><span>Happy Customers</span></div>
             <div class="hero-stat-divider"></div>
-            <div class="hero-stat"><strong>10K+</strong><span>Products</span></div>
+            <div class="hero-stat"><strong><span id="liveShoppersCount">284</span> ⚡</strong><span>Live Shoppers</span></div>
             <div class="hero-stat-divider"></div>
             <div class="hero-stat"><strong>4.9★</strong><span>Avg Rating</span></div>
           </div>
@@ -454,6 +455,9 @@
       </div>
     </div>
   </section>
+
+  <!-- ===== RECENTLY VIEWED SHELF ===== -->
+  <div class="container" id="homeRecentlyViewed" style="display:none;margin-top:2rem;"></div>
 
   <!-- ===== NEWSLETTER ===== -->
   <section class="newsletter">
