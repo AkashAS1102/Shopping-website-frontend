@@ -48,6 +48,17 @@
       </nav>
 
       <div class="nav-actions">
+        <div class="currency-select-wrap">
+          <select class="currency-select" aria-label="Select Currency">
+            <option value="INR">₹ INR</option>
+            <option value="USD">$ USD</option>
+            <option value="EUR">€ EUR</option>
+            <option value="GBP">£ GBP</option>
+          </select>
+        </div>
+        <button class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Dark/Light Mode">
+          <i class="fas fa-moon"></i>
+        </button>
         <div class="search-bar" id="searchBarDesktop">
           <i class="fas fa-search"></i>
           <input type="text" id="searchInput" placeholder="Search products, brands…" autocomplete="off"/>
@@ -129,14 +140,39 @@
 
       <!-- Price Range -->
       <div class="filter-group">
-        <h4>Max Price</h4>
+        <h4>Price Range</h4>
         <div class="price-range">
-          <input type="range" id="priceRange" min="200" max="20000" value="20000" step="200"/>
+          <input type="range" id="priceRange" min="200" max="60000" value="60000" step="200"/>
           <div class="price-labels">
             <span>₹200</span>
-            <span id="priceVal" style="font-weight:700;color:var(--primary)">₹20,000</span>
+            <span id="priceVal" style="font-weight:700;color:var(--primary)">₹60,000</span>
+          </div>
+          <div style="display:flex;gap:.5rem;align-items:center;margin-top:.6rem;">
+            <input type="number" id="minPriceInput" placeholder="Min" min="0" style="width:50%;padding:.35rem .5rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:.8rem;"/>
+            <span style="color:var(--text-muted)">–</span>
+            <input type="number" id="maxPriceInput" placeholder="Max" min="0" value="60000" style="width:50%;padding:.35rem .5rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:.8rem;"/>
           </div>
         </div>
+      </div>
+
+      <!-- Brands Filter -->
+      <div class="filter-group">
+        <h4>Brand</h4>
+        <input type="text" id="brandSearch" class="brand-checklist-search" placeholder="Search brands…" />
+        <div class="brand-checklist" id="brandChecklist">
+          <!-- Populated dynamically by shop.js -->
+        </div>
+      </div>
+
+      <!-- Discount Filter -->
+      <div class="filter-group">
+        <h4>Min Discount</h4>
+        <label class="filter-check"><input type="radio" name="discount" value="0" checked> All Discounts</label>
+        <label class="filter-check"><input type="radio" name="discount" value="50"> 50% or more</label>
+        <label class="filter-check"><input type="radio" name="discount" value="40"> 40% or more</label>
+        <label class="filter-check"><input type="radio" name="discount" value="30"> 30% or more</label>
+        <label class="filter-check"><input type="radio" name="discount" value="20"> 20% or more</label>
+        <label class="filter-check"><input type="radio" name="discount" value="10"> 10% or more</label>
       </div>
 
       <!-- Rating Filter -->
@@ -176,6 +212,12 @@
           Showing <strong id="resultCount">0</strong> products
         </div>
         <div class="toolbar-right">
+          <select id="perPageSelect" style="padding:.45rem .85rem;border:1.5px solid var(--border);border-radius:20px;background:var(--bg);color:var(--text);font-size:.85rem;font-weight:600;">
+            <option value="9">9 per page</option>
+            <option value="12">12 per page</option>
+            <option value="18">18 per page</option>
+            <option value="24">24 per page</option>
+          </select>
           <select id="sortSelect">
             <option value="default">Sort: Featured</option>
             <option value="price-asc">Price: Low to High</option>
@@ -187,6 +229,8 @@
           </select>
           <button class="view-btn active" id="gridView" title="Grid View"><i class="fas fa-th"></i></button>
           <button class="view-btn" id="listView" title="List View"><i class="fas fa-list"></i></button>
+          <button class="view-btn" id="shareSearchBtn" title="Share Search Link"><i class="fas fa-share-nodes"></i></button>
+          <button class="view-btn" id="exportCatalogBtn" title="Export to CSV"><i class="fas fa-file-csv"></i></button>
           <button class="filter-toggle-btn" id="filterToggle"><i class="fas fa-sliders"></i> Filters</button>
         </div>
       </div>
@@ -285,6 +329,12 @@
       </div>
     </div>
   </footer>
+
+  <!-- ===== QUICK VIEW MODAL CONTAINER ===== -->
+  <div class="modal-overlay" id="quickViewModal"></div>
+
+  <!-- ===== COMPARE DOCK CONTAINER ===== -->
+  <div class="compare-dock" id="compareDock"></div>
 
   <!-- ===== TOAST ===== -->
   <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
