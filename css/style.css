@@ -2162,3 +2162,315 @@ s { opacity: .6; }
   font-weight: 600;
   color: var(--primary);
 }
+
+
+/* ── SPIN THE WHEEL LUCKY COUPON MODAL ── */
+.wheel-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(5px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+.wheel-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.wheel-box {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 2rem;
+  max-width: 440px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.wheel-modal-overlay.active .wheel-box {
+  transform: scale(1);
+}
+.wheel-canvas-wrap {
+  position: relative;
+  width: 260px;
+  height: 260px;
+  margin: 1.5rem auto;
+}
+.wheel-canvas {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+  border: 4px solid var(--border);
+}
+.wheel-pointer {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 24px solid var(--primary);
+  z-index: 10;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* ── LIVE ORDER TRACKING TIMELINE STEPPER ── */
+.order-tracker-timeline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  margin: 2rem 0 1.5rem;
+  padding: 0 1rem;
+}
+.order-tracker-timeline::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  left: 3rem;
+  right: 3rem;
+  height: 4px;
+  background: var(--border);
+  z-index: 1;
+}
+.tracker-progress-line {
+  position: absolute;
+  top: 24px;
+  left: 3rem;
+  height: 4px;
+  background: var(--primary);
+  z-index: 2;
+  transition: width 0.6s ease;
+}
+.tracker-step {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.tracker-step-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 3px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+}
+.tracker-step.completed .tracker-step-icon {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.tracker-step.active .tracker-step-icon {
+  background: var(--bg-card);
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: 0 0 0 6px rgba(255,107,53,0.2);
+}
+.tracker-step-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+  color: var(--text);
+}
+.tracker-step-time {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* ── VOICE SEARCH MODAL & OVERLAY ── */
+.voice-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+}
+.voice-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+.voice-modal-card {
+  background: var(--bg-card);
+  padding: 2.5rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  text-align: center;
+  max-width: 380px;
+  width: 85%;
+  box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+}
+.voice-mic-circle {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--grad-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: #fff;
+  font-size: 2rem;
+  box-shadow: 0 8px 24px rgba(255,107,53,0.35);
+}
+.voice-waves-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  margin-bottom: 1rem;
+}
+
+/* ── BANK OFFERS ACCORDION & CHIPS ── */
+.bank-offers-container {
+  background: linear-gradient(135deg, rgba(79, 172, 254, 0.08), rgba(0, 242, 254, 0.08));
+  border: 1px solid rgba(79, 172, 254, 0.3);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+}
+.bank-offer-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.bank-offer-row:last-child {
+  margin-bottom: 0;
+}
+.bank-badge {
+  background: #0284c7;
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* ── DELIVERY TIME SLOT SELECTOR ── */
+.delivery-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+.slot-card {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  text-align: center;
+  cursor: pointer;
+  background: var(--bg);
+  transition: all 0.2s ease;
+}
+.slot-card:hover, .slot-card.selected {
+  border-color: var(--primary);
+  background: rgba(255,107,53,0.06);
+}
+.slot-title {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.slot-time {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* ── STOCK URGENCY BADGE ── */
+.stock-urgency-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+  margin-bottom: 0.75rem;
+}
+
+/* ── PRICE PRESETS BUTTONS ── */
+.price-preset-group {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+}
+.price-preset-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 3px 9px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.price-preset-btn:hover, .price-preset-btn.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* ── PRODUCT Q&A ACCORDION ── */
+.qa-container {
+  margin-top: 2rem;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+.qa-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.qa-q {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.qa-a {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  line-height: 1.5;
+  padding-left: 1.4rem;
+}
