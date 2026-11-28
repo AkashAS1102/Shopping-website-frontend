@@ -392,6 +392,48 @@ document.addEventListener('DOMContentLoaded', () => {
     window.print();
   });
 
+  // ── Delivery Time Slot Selection ──
+  let selectedSlot = 'morning';
+  document.querySelectorAll('.slot-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.slot-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      selectedSlot = card.dataset.slot || 'morning';
+      showToast(`🕒 Selected: ${card.querySelector('.slot-title')?.textContent}`);
+    });
+  });
+
+  // ── Download Digital Tax Invoice ──
+  document.getElementById('downloadInvoiceBtn')?.addEventListener('click', () => {
+    const invoiceContent = document.getElementById('printInvoiceArea')?.innerHTML;
+    if (!invoiceContent) {
+      showToast('No active invoice to download.', 'warning');
+      return;
+    }
+    const fullHtml = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>ShopNow_Tax_Invoice</title><style>body{font-family:sans-serif;padding:2rem;}</style></head><body>${invoiceContent}</body></html>`;
+    const blob = new Blob([fullHtml], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Invoice_${Date.now()}.html`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    showToast('📄 Invoice downloaded successfully!', 'success');
+  });
+
+  // ── Track Active Order Quick Action ──
+  document.getElementById('trackNewOrderBtn')?.addEventListener('click', () => {
+    const orders = LS.get('sn_orders', []);
+    const latest = orders[0];
+    if (latest && typeof trackOrder === 'function') {
+      trackOrder(latest.id);
+    } else {
+      showToast('Order details loading…');
+    }
+  });
+
   // ── Express Demo Fill ──
   document.getElementById('demoFillBtn')?.addEventListener('click', () => {
     const fields = {

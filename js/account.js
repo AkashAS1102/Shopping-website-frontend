@@ -606,6 +606,20 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast('📥 Order history exported to CSV!', 'success');
   });
 
+  // ── 17. Security & Notification Preferences ──
+  document.querySelectorAll('.notif-pref-check').forEach(chk => {
+    chk.addEventListener('change', () => {
+      LS.set('sn_pref_' + chk.id, chk.checked);
+      showToast('Notification preference updated.', 'info');
+    });
+  });
+
+  document.getElementById('twoFactorToggle')?.addEventListener('change', (e) => {
+    const enabled = e.target.checked;
+    LS.set('sn_2fa_enabled', enabled);
+    showToast(enabled ? '🛡️ Two-Factor Authentication Enabled via SMS' : 'Two-Factor Authentication Disabled', enabled ? 'success' : 'warning');
+  });
+
   // ── Initialize ──
   checkAuthState();
 });

@@ -291,4 +291,62 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   initLiveShoppersCount();
 
+  // ══════════════════════════════
+  //  DEAL OF THE DAY SPOTLIGHT
+  // ══════════════════════════════
+  function initDealSpotlight() {
+    const spotWrap = document.getElementById('dealSpotlightWrap');
+    if (!spotWrap || typeof getDealOfTheDay !== 'function') return;
+    const deal = getDealOfTheDay();
+    if (!deal || !deal.product) return;
+
+    spotWrap.innerHTML = `
+      <div style="background:linear-gradient(135deg, #1f2937 0%, #111827 100%);color:#fff;border-radius:var(--radius);padding:1.75rem;margin:2.5rem 0;position:relative;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,0.25);">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;">
+          <div style="max-width:480px;">
+            <span class="badge" style="background:#ef4444;color:#fff;padding:.3rem .75rem;border-radius:20px;font-weight:800;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px;">⚡ Deal of the Day</span>
+            <h3 style="font-size:1.6rem;font-weight:900;margin:.6rem 0 .4rem;color:#fff;">${deal.product.name}</h3>
+            <p style="color:#9ca3af;font-size:.9rem;line-height:1.5;margin-bottom:1rem;">${deal.specialNote}</p>
+            <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;">
+              <span style="font-size:1.8rem;font-weight:900;color:var(--primary);">${formatPrice(deal.product.price)}</span>
+              <span style="font-size:1.1rem;text-decoration:line-through;color:#6b7280;">${formatPrice(deal.product.originalPrice)}</span>
+              <span style="background:rgba(34,197,94,0.2);color:#4ade80;padding:2px 8px;border-radius:4px;font-weight:700;font-size:.85rem;">${deal.discount}% OFF</span>
+            </div>
+            <div style="display:flex;gap:.75rem;flex-wrap:wrap;">
+              <button class="btn btn-primary" onclick="addToCart(${deal.product.id}, 1);playSound('cart');" style="padding:.75rem 1.5rem;font-weight:800;"><i class="fas fa-cart-plus"></i> Claim This Deal</button>
+              <a href="product.html?id=${deal.product.id}" class="btn btn-outline" style="color:#fff;border-color:rgba(255,255,255,0.3);padding:.75rem 1.25rem;">View Specs</a>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <img src="${deal.product.img}" alt="${deal.product.name}" style="max-width:260px;width:100%;border-radius:var(--radius);box-shadow:0 8px 24px rgba(0,0,0,0.4);" />
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  initDealSpotlight();
+
+  // ══════════════════════════════
+  //  BANK OFFERS TICKER
+  // ══════════════════════════════
+  function initBankOffersTicker() {
+    const ticker = document.getElementById('bankOffersTicker');
+    if (!ticker || typeof getBankOffers !== 'function') return;
+    const offers = getBankOffers();
+    ticker.innerHTML = offers.map(o => `
+      <div class="bank-offer-row">
+        <span class="bank-badge">${o.badge}</span>
+        <div><strong>${o.title}:</strong> <span>${o.desc}</span></div>
+      </div>
+    `).join('');
+  }
+  initBankOffersTicker();
+
+  // ══════════════════════════════
+  //  SPIN & WIN BUTTON TRIGGER
+  // ══════════════════════════════
+  document.getElementById('floatingSpinBtn')?.addEventListener('click', () => {
+    if (typeof openLuckyWheel === 'function') openLuckyWheel();
+  });
+
 });

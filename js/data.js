@@ -905,3 +905,172 @@ function getRecentlyViewedProducts() {
     return [];
   }
 }
+
+
+/* ── ADDITIONAL PRODUCTS (EXPANDING TO 45 PRODUCTS) ── */
+const MORE_PRODUCTS = [
+  {
+    id: 41,
+    name: 'Samsung 55-inch Crystal 4K UHD Smart TV',
+    brand: 'Samsung',
+    cat: 'electronics',
+    price: 44990,
+    originalPrice: 64900,
+    rating: 4.8,
+    reviews: 2890,
+    badge: 'Deal of the Day',
+    desc: 'Experience lifelike colors with Crystal Processor 4K, HDR 10+, Q-Symphony sound, and built-in voice assistants.',
+    features: ['55-inch Ultra HD 4K (3840 x 2160)', 'Crystal Processor 4K', '3 HDMI ports, 1 USB port', '20W Dolby Digital Plus Audio', 'Tizen OS with Netflix & Prime Video'],
+    img: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=600&auto=format&fit=crop&q=80',
+    stock: 8,
+    inStock: true,
+    isSale: true,
+    tags: ['tv', 'samsung', '4k', 'smart tv', 'electronics']
+  },
+  {
+    id: 42,
+    name: 'Asics Gel-Kayano 30 Stability Running Shoes',
+    brand: 'Asics',
+    cat: 'sports',
+    price: 13999,
+    originalPrice: 15999,
+    rating: 4.9,
+    reviews: 730,
+    badge: 'Trending',
+    desc: 'Advanced stability with 4D GUIDANCE SYSTEM and PureGEL technology for softer landings during long marathons.',
+    features: ['4D Guidance System', 'PureGEL cushioning', 'FF BLAST PLUS ECO foam', 'Engineered stretch knit upper'],
+    img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&auto=format&fit=crop&q=80',
+    stock: 14,
+    inStock: true,
+    isSale: false,
+    tags: ['shoes', 'asics', 'running', 'sports', 'fitness']
+  },
+  {
+    id: 43,
+    name: 'Keychron K2 Pro QMK Wireless Mechanical Keyboard',
+    brand: 'Keychron',
+    cat: 'electronics',
+    price: 9499,
+    originalPrice: 11999,
+    rating: 4.8,
+    reviews: 512,
+    badge: 'Hot',
+    desc: 'Wireless mechanical keyboard supporting Mac and Windows with hot-swappable Keychron K Pro switches and RGB backlight.',
+    features: ['75% compact layout', 'QMK/VIA remappable keys', 'Hot-swappable switches', 'Bluetooth 5.1 & Type-C wired', '4000 mAh rechargeable battery'],
+    img: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600&auto=format&fit=crop&q=80',
+    stock: 11,
+    inStock: true,
+    isSale: true,
+    tags: ['keyboard', 'keychron', 'mechanical', 'electronics', 'gaming']
+  },
+  {
+    id: 44,
+    name: 'Fossil Defender Genuine Leather Messenger Bag',
+    brand: 'Fossil',
+    cat: 'fashion',
+    price: 11995,
+    originalPrice: 17995,
+    rating: 4.7,
+    reviews: 380,
+    badge: 'Best Seller',
+    desc: 'Crafted from rich heirloom leather with padded laptop sleeve for up to 15-inch devices, brass hardware, and adjustable strap.',
+    features: ['100% Genuine rich leather', 'Holds up to 15" laptop', 'Magnetic flap closure', 'Interior slip pockets & pen loops'],
+    img: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&auto=format&fit=crop&q=80',
+    stock: 7,
+    inStock: true,
+    isSale: true,
+    tags: ['bag', 'fossil', 'leather', 'fashion', 'accessories']
+  },
+  {
+    id: 45,
+    name: 'Bose QuietComfort 45 Noise Cancelling Headphones',
+    brand: 'Bose',
+    cat: 'electronics',
+    price: 24900,
+    originalPrice: 29900,
+    rating: 4.9,
+    reviews: 1840,
+    badge: 'Popular',
+    desc: 'Iconic world-class quiet, lightweight comfort, and proprietary acoustic technology for deep, clear audio with 24-hour battery.',
+    features: ['Acoustic Noise Cancelling', 'Aware Mode for ambient sound', 'TriPort acoustic architecture', 'Up to 24 hours per charge', 'QuietComfort plush earcups'],
+    img: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80',
+    stock: 5,
+    inStock: true,
+    isSale: false,
+    tags: ['headphones', 'bose', 'audio', 'noise cancelling', 'electronics']
+  }
+];
+
+MORE_PRODUCTS.forEach(p => {
+  if (!PRODUCTS.some(existing => existing.id === p.id)) {
+    PRODUCTS.push(p);
+  }
+});
+
+/* ── BANK OFFERS AND PROMOTIONS ── */
+const BANK_OFFERS = [
+  { bank: 'HDFC', badge: '10% INSTANT', title: 'HDFC Bank Credit & Debit Cards', desc: '10% Instant Discount up to ₹1,500 on orders above ₹4,999. Valid on EMI orders.' },
+  { bank: 'ICICI', badge: 'NO COST EMI', title: 'ICICI Bank Cards', desc: 'Flat ₹500 off on ICICI Credit Cards + 6 Months No Cost EMI on electronics.' },
+  { bank: 'SBI', badge: 'FLAT ₹750', title: 'SBI Card Special', desc: 'Flat ₹750 off on minimum purchase of ₹7,500 with SBI Credit Card.' },
+  { bank: 'AXIS', badge: '5% CASHBACK', title: 'Axis Bank Buzz', desc: '5% unlimited cashback for Axis Bank Flipkart / Ace Credit cardholders.' }
+];
+
+/* ── DEAL OF THE DAY HIGHLIGHT ── */
+const DEAL_OF_THE_DAY = {
+  productId: 41,
+  discount: 31,
+  endsInHours: 8,
+  claimedPercent: 82,
+  specialNote: 'Lightning Deal: Extra ₹2,000 Coupon applies on Checkout!'
+};
+
+/* ── DELIVERY TIME SLOTS ── */
+const DELIVERY_SLOTS = [
+  { id: 'morning', label: 'Morning Slot', time: '8:00 AM – 12:00 PM', fee: 0 },
+  { id: 'afternoon', label: 'Afternoon Slot', time: '1:00 PM – 5:00 PM', fee: 0 },
+  { id: 'evening', label: 'Evening Prime', time: '6:00 PM – 9:30 PM', fee: 29 },
+  { id: 'express', label: 'Express 2-Hour', time: 'Within 120 Minutes', fee: 79 }
+];
+
+/* ── LUCKY SPIN WHEEL PRIZES ── */
+const LUCKY_WHEEL_PRIZES = [
+  { label: '₹100 OFF', code: 'LUCKY100', color: '#ff6b35' },
+  { label: 'FREE SHIPPING', code: 'FREESHIP', color: '#4facfe' },
+  { label: '15% OFF', code: 'SPIN15', color: '#43e97b' },
+  { label: '₹500 OFF', code: 'BIGWIN500', color: '#f5576c' },
+  { label: '50 POINTS', code: 'PTS50', color: '#f9d423' },
+  { label: 'BETTER LUCK', code: '', color: '#9b51e0' }
+];
+
+/* ── PRODUCT Q&A DATABASE ── */
+const PRODUCT_QA = {
+  1: [
+    { q: 'Is this compatible with iPhone and Android?', a: 'Yes! It connects via Bluetooth 5.0 to any iOS, Android, Windows, and Mac device effortlessly.' },
+    { q: 'How long does the battery last on a single charge?', a: 'You get up to 30 hours of continuous playback with ANC enabled, and quick charging gives 5 hours in just 10 minutes.' }
+  ],
+  41: [
+    { q: 'Does this TV come with wall mount included in the box?', a: 'Yes, a standard wall mount and table stand brackets are both provided in the packaging along with free installation.' },
+    { q: 'Can I connect bluetooth headphones to this TV?', a: 'Yes, dual audio Bluetooth support allows connecting up to two Bluetooth audio devices at the same time.' }
+  ]
+};
+
+/* ── HELPER FUNCTIONS ── */
+function getBankOffers() {
+  return BANK_OFFERS;
+}
+
+function getDealOfTheDay() {
+  const p = getProductById(DEAL_OF_THE_DAY.productId);
+  return { ...DEAL_OF_THE_DAY, product: p };
+}
+
+function getDeliverySlots() {
+  return DELIVERY_SLOTS;
+}
+
+function getProductQA(productId) {
+  return PRODUCT_QA[productId] || [
+    { q: 'What is the manufacturer warranty duration?', a: 'All products on ShopNow include standard 1-year brand warranty with doorstep pickup support.' },
+    { q: 'Is Cash on Delivery (COD) supported for this product?', a: 'Yes, Cash on Delivery is available for all pin codes across India on orders up to ₹10,000.' }
+  ];
+}

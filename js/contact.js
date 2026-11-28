@@ -1,5 +1,8 @@
 /* ============================
-   CONTACT.JS v2.0
+   CONTACT.JS v3.0 – Enterprise Support & Experience Hub
+   Interactive Regional Desks, Real-time Ticket Dispatch,
+   Store Locator, Live Assistant with Typing Indicators,
+   FAQ Search & Helpful Voting, Callback Scheduler
    ============================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -34,10 +37,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const cityKey = btn.dataset.city;
       const c = cities[cityKey];
       if (c) {
-        const titleEl   = document.getElementById('cityTitle');
-        const addrEl    = document.getElementById('cityAddress');
-        const phoneEl   = document.getElementById('cityPhone');
-        const emailEl   = document.getElementById('cityEmail');
+        const titleEl = document.getElementById('cityTitle');
+        const addrEl  = document.getElementById('cityAddress');
+        const phoneEl = document.getElementById('cityPhone');
+        const emailEl = document.getElementById('cityEmail');
 
         if (titleEl) titleEl.textContent = c.title;
         if (addrEl)  addrEl.textContent  = c.address;
@@ -198,10 +201,19 @@ document.addEventListener('DOMContentLoaded', () => {
       reply = "Hello! 👋 Welcome to ShopNow priority support. How can I assist you today?";
     }
 
+    // Show typing dots animation
+    const typingEl = document.createElement('div');
+    typingEl.id = 'chatTypingIndicator';
+    typingEl.className = 'typing-dots';
+    typingEl.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+    chatMessages.appendChild(typingEl);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
     // Typing effect delay
     setTimeout(() => {
+      typingEl.remove();
       appendChatMessage(reply, 'bot');
-    }, 700);
+    }, 850);
   }
 
   chatForm?.addEventListener('submit', e => {
@@ -302,6 +314,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     showToast(`📞 Callback scheduled for ${time || 'today'} at ${phone}!`);
     e.target.reset();
+  });
+
+  // ── 9. FAQ Helpful Rating Buttons ──
+  document.querySelectorAll('.faq-helpful-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      btn.style.color = 'var(--primary)';
+      btn.innerHTML = '<i class="fas fa-check"></i> Thank you!';
+      showToast('Feedback noted! Glad this helped.');
+    });
+  });
+
+  // ── 10. Support Satisfaction Emoji Rating ──
+  document.querySelectorAll('.feedback-emoji-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.feedback-emoji-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      showToast(`⭐ Thank you for rating our support ${btn.dataset.rating}!`, 'success');
+    });
   });
 
 });

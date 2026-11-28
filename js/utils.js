@@ -999,3 +999,281 @@ document.addEventListener('DOMContentLoaded', () => {
   initKeyboardShortcuts();
   initOfflineDetector();
 });
+
+
+/* ── 27. SYNTHESIZED SOUND EFFECTS (WEB AUDIO API) ── */
+function playSound(type = 'click') {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    const now = ctx.currentTime;
+    if (type === 'click') {
+      osc.frequency.setValueAtTime(600, now);
+      osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+      osc.start(now);
+      osc.stop(now + 0.05);
+    } else if (type === 'cart') {
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.setValueAtTime(880, now + 0.08);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+      osc.start(now);
+      osc.stop(now + 0.2);
+    } else if (type === 'success') {
+      [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+        const subOsc = ctx.createOscillator();
+        const subGain = ctx.createGain();
+        subOsc.connect(subGain);
+        subGain.connect(ctx.destination);
+        subOsc.frequency.setValueAtTime(freq, now + idx * 0.08);
+        subGain.gain.setValueAtTime(0.15, now + idx * 0.08);
+        subGain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.08 + 0.15);
+        subOsc.start(now + idx * 0.08);
+        subOsc.stop(now + idx * 0.08 + 0.15);
+      });
+    }
+  } catch (e) {
+    // Audio context not allowed or supported
+  }
+}
+
+/* ── 28. VOICE SEARCH SPEECH RECOGNITION ── */
+function initVoiceSearch() {
+  const micBtns = document.querySelectorAll('.voice-search-btn');
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  micBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!SpeechRecognition) {
+        showToast('⚠️ Voice search is not supported in your browser.', 'warning');
+        return;
+      }
+
+      let modal = document.getElementById('voiceSearchModal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'voiceSearchModal';
+        modal.className = 'voice-modal-overlay';
+        modal.innerHTML = `
+          <div class="voice-modal-card">
+            <div class="voice-mic-circle"><i class="fas fa-microphone"></i></div>
+            <h3 style="margin-bottom:.5rem;">Listening…</h3>
+            <p style="font-size:.85rem;color:var(--text-muted);margin-bottom:1.5rem;">Say something like "Running Shoes" or "Headphones"</p>
+            <div class="voice-waves-container">
+              <span class="voice-wave-bar"></span>
+              <span class="voice-wave-bar"></span>
+              <span class="voice-wave-bar"></span>
+              <span class="voice-wave-bar"></span>
+            </div>
+            <button class="btn btn-outline" id="closeVoiceModalBtn" style="padding:.4rem 1.25rem;">Cancel</button>
+          </div>
+        `;
+        document.body.appendChild(modal);
+        document.getElementById('closeVoiceModalBtn')?.addEventListener('click', () => {
+          modal.classList.remove('active');
+          if (recognition) recognition.stop();
+        });
+      }
+
+      modal.classList.add('active');
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'en-IN';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        modal.classList.remove('active');
+        showToast(`🎙️ Heard: "${transcript}"`);
+        const searchInput = document.getElementById('globalSearch') || document.querySelector('.search-bar input');
+        if (searchInput) {
+          searchInput.value = transcript;
+          window.location.href = `shop.html?q=${encodeURIComponent(transcript)}`;
+        }
+      };
+
+      recognition.onerror = () => {
+        modal.classList.remove('active');
+        showToast('❌ Voice not recognized. Please try again.', 'error');
+      };
+
+      recognition.start();
+    });
+  });
+}
+
+/* ── 29. SPIN THE WHEEL LUCKY COUPON MODAL ── */
+function openLuckyWheel() {
+  let modal = document.getElementById('luckyWheelModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'luckyWheelModal';
+    modal.className = 'wheel-modal-overlay';
+    modal.innerHTML = `
+      <div class="wheel-box">
+        <button id="closeWheelBtn" style="position:absolute;top:12px;right:16px;background:none;border:none;font-size:1.2rem;color:var(--text-muted);cursor:pointer;"><i class="fas fa-times"></i></button>
+        <h3 style="font-size:1.3rem;font-weight:800;color:var(--text);margin-bottom:.25rem;"><i class="fas fa-dice text-primary"></i> Spin &amp; Win!</h3>
+        <p style="font-size:.85rem;color:var(--text-muted);">Spin the lucky wheel to unlock an exclusive discount code!</p>
+        <div class="wheel-canvas-wrap">
+          <div class="wheel-pointer"></div>
+          <canvas id="wheelCanvas" class="wheel-canvas" width="260" height="260"></canvas>
+        </div>
+        <button id="spinNowBtn" class="btn btn-primary full-width" style="padding:.75rem;justify-content:center;font-weight:800;">
+          <i class="fas fa-rotate"></i> Spin The Wheel
+        </button>
+        <div id="wheelResultMsg" style="margin-top:1rem;font-weight:700;font-size:.9rem;min-height:1.5rem;"></div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    document.getElementById('closeWheelBtn')?.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+
+    drawWheelCanvas();
+  }
+
+  modal.classList.add('active');
+
+  const spinBtn = document.getElementById('spinNowBtn');
+  spinBtn.onclick = () => {
+    spinBtn.disabled = true;
+    spinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Spinning…';
+    const canvas = document.getElementById('wheelCanvas');
+    canvas.classList.add('anim-spin-wheel');
+
+    setTimeout(() => {
+      canvas.classList.remove('anim-spin-wheel');
+      spinBtn.disabled = false;
+      spinBtn.innerHTML = '<i class="fas fa-rotate"></i> Spin Again';
+      const prize = LUCKY_WHEEL_PRIZES[Math.floor(Math.random() * (LUCKY_WHEEL_PRIZES.length - 1))];
+      const resMsg = document.getElementById('wheelResultMsg');
+      if (prize && prize.code) {
+        playSound('success');
+        triggerConfetti(2500);
+        resMsg.innerHTML = `<span style="color:var(--success)">🎉 You won ${prize.label}! Use code: <strong style="text-decoration:underline;">${prize.code}</strong></span>`;
+        copyToClipboard(prize.code, `Copied coupon code: ${prize.code}`);
+      } else {
+        resMsg.innerHTML = '<span style="color:var(--text-muted)">Better luck next time! Try again!</span>';
+      }
+    }, 4000);
+  };
+}
+
+function drawWheelCanvas() {
+  const canvas = document.getElementById('wheelCanvas');
+  if (!canvas || !canvas.getContext) return;
+  const ctx = canvas.getContext('2d');
+  const numPrizes = LUCKY_WHEEL_PRIZES.length;
+  const arc = (2 * Math.PI) / numPrizes;
+  const radius = canvas.width / 2;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = 0; i < numPrizes; i++) {
+    const angle = i * arc;
+    ctx.beginPath();
+    ctx.fillStyle = LUCKY_WHEEL_PRIZES[i].color;
+    ctx.moveTo(radius, radius);
+    ctx.arc(radius, radius, radius - 4, angle, angle + arc);
+    ctx.fill();
+    ctx.stroke();
+
+    // Text labels
+    ctx.save();
+    ctx.translate(radius, radius);
+    ctx.rotate(angle + arc / 2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 11px Inter, sans-serif';
+    ctx.fillText(LUCKY_WHEEL_PRIZES[i].label, radius - 15, 4);
+    ctx.restore();
+  }
+}
+
+/* ── 30. LIVE ORDER TRACKING MODAL ── */
+function trackOrder(orderId = 'SN-849201') {
+  let modal = document.getElementById('orderTrackerModal');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'orderTrackerModal';
+    modal.className = 'wheel-modal-overlay';
+    document.body.appendChild(modal);
+  }
+
+  modal.innerHTML = `
+    <div class="wheel-box" style="max-width:540px;text-align:left;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;border-bottom:1px solid var(--border);padding-bottom:.75rem;">
+        <div>
+          <h3 style="margin:0;font-size:1.15rem;font-weight:800;color:var(--text);"><i class="fas fa-truck text-primary"></i> Track Order</h3>
+          <span style="font-size:.8rem;color:var(--text-muted);">Tracking ID: <strong>${orderId}</strong></span>
+        </div>
+        <button id="closeTrackerBtn" style="background:none;border:none;font-size:1.2rem;color:var(--text-muted);cursor:pointer;"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="order-tracker-timeline">
+        <div class="tracker-progress-line" style="width: 66%;"></div>
+        <div class="tracker-step completed">
+          <div class="tracker-step-icon"><i class="fas fa-check"></i></div>
+          <div class="tracker-step-label">Ordered</div>
+          <div class="tracker-step-time">Yesterday</div>
+        </div>
+        <div class="tracker-step completed">
+          <div class="tracker-step-icon"><i class="fas fa-box"></i></div>
+          <div class="tracker-step-label">Packed</div>
+          <div class="tracker-step-time">Today 9:30 AM</div>
+        </div>
+        <div class="tracker-step active">
+          <div class="tracker-step-icon anim-tracker-radar"><i class="fas fa-truck-fast"></i></div>
+          <div class="tracker-step-label">In Transit</div>
+          <div class="tracker-step-time">Hub Arrival</div>
+        </div>
+        <div class="tracker-step">
+          <div class="tracker-step-icon"><i class="fas fa-house-chimney"></i></div>
+          <div class="tracker-step-label">Delivered</div>
+          <div class="tracker-step-time">Tomorrow</div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg);border-radius:var(--radius-sm);padding:1rem;margin-top:1.25rem;border:1px solid var(--border);font-size:.85rem;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
+          <span class="text-muted">Courier Partner:</span>
+          <strong>BlueDart Express Air</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
+          <span class="text-muted">Estimated Delivery:</span>
+          <strong style="color:var(--success)">Tomorrow by 4:00 PM</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;">
+          <span class="text-muted">Delivery Address:</span>
+          <span>Bengaluru, Karnataka 560001</span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  modal.classList.add('active');
+  document.getElementById('closeTrackerBtn')?.addEventListener('click', () => modal.classList.remove('active'));
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('active');
+  });
+}
+
+// Hook audio sound effect to Add to cart buttons
+document.addEventListener('DOMContentLoaded', () => {
+  initVoiceSearch();
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.add-to-cart-btn') || e.target.closest('#detailAddCart') || e.target.closest('#stickyAddBtn')) {
+      playSound('cart');
+    }
+  });
+});

@@ -537,6 +537,56 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   initSocialProof();
 
+  // ── Bank Offers on Product Page ──
+  function initProductBankOffers() {
+    const offerBox = document.getElementById('productBankOffers');
+    if (!offerBox || typeof getBankOffers !== 'function') return;
+    const offers = getBankOffers().slice(0, 3);
+    offerBox.innerHTML = `
+      <div class="bank-offers-container">
+        <h4 style="font-size:.9rem;font-weight:800;margin-bottom:.75rem;color:var(--text);display:flex;align-items:center;gap:.5rem;">
+          <i class="fas fa-tags text-primary"></i> Available Bank &amp; EMI Offers
+        </h4>
+        ${offers.map(o => `
+          <div class="bank-offer-row">
+            <span class="bank-badge">${o.badge}</span>
+            <div><strong>${o.bank} Bank:</strong> <span>${o.desc}</span></div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+  initProductBankOffers();
+
+  // ── Customer Questions & Answers (Q&A) ──
+  function initProductQA() {
+    const qaBox = document.getElementById('productQAContainer');
+    if (!qaBox || typeof getProductQA !== 'function') return;
+    const qas = getProductQA(product.id);
+    qaBox.innerHTML = `
+      <div class="qa-container">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
+          <h3 style="font-size:1.15rem;font-weight:800;color:var(--text);margin:0;"><i class="fas fa-circle-question text-primary"></i> Customer Questions &amp; Answers</h3>
+          <button class="btn btn-outline" id="askQuestionBtn" style="padding:.35rem .75rem;font-size:.8rem;"><i class="fas fa-plus"></i> Ask Question</button>
+        </div>
+        ${qas.map(item => `
+          <div class="qa-card">
+            <div class="qa-q"><i class="fas fa-q text-primary"></i> ${item.q}</div>
+            <div class="qa-a"><i class="fas fa-a text-success" style="margin-right:.4rem"></i> ${item.a}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    document.getElementById('askQuestionBtn')?.addEventListener('click', () => {
+      const question = prompt('Type your question regarding ' + product.name + ':');
+      if (question && question.trim()) {
+        showToast('🙏 Question submitted! Our seller will reply within 24 hours.', 'success');
+      }
+    });
+  }
+  initProductQA();
+
   // ── Share Product Action ──
   document.getElementById('shareProductBtn')?.addEventListener('click', () => {
     if (navigator.share) {

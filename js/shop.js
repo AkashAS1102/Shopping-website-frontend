@@ -455,6 +455,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // ── Price Presets Buttons Handler ──
+  document.querySelectorAll('.price-preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.price-preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const min = parseInt(btn.dataset.min || 0);
+      const max = parseInt(btn.dataset.max || 60000);
+      if (minPriceInput) minPriceInput.value = min;
+      if (maxPriceInput) maxPriceInput.value = max;
+      if (priceRange) priceRange.value = max;
+      if (priceVal) priceVal.textContent = `₹${max.toLocaleString('en-IN')}`;
+      applyFilters();
+    });
+  });
+
   // ── Initialize ──
   initBrands();
   applyFilters();

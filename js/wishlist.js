@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sortVal === 'price-asc')  products.sort((a, b) => a.price - b.price);
     if (sortVal === 'price-desc') products.sort((a, b) => b.price - a.price);
     if (sortVal === 'rating')     products.sort((a, b) => b.rating - a.rating);
+    if (sortVal === 'discount')   products.sort((a, b) => getDiscountPercent(b) - getDiscountPercent(a));
 
     // Update Counts & Values
     const totalCount = ids.length;
@@ -213,6 +214,26 @@ document.addEventListener('DOMContentLoaded', () => {
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }
+
+  // ── Share via WhatsApp ──
+  document.getElementById('shareWhatsAppBtn')?.addEventListener('click', () => {
+    const ids = getWishlist();
+    if (!ids.length) {
+      showToast('Wishlist is empty!', 'warning');
+      return;
+    }
+    const shareUrl = window.location.origin + window.location.pathname + '?shared=' + ids.join(',');
+    const text = `Hey, check out my favorite items on ShopNow: ${shareUrl}`;
+    window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`, '_blank');
+  });
+
+  // ── Price Drop Alert Email Trigger ──
+  document.getElementById('priceDropAlertBtn')?.addEventListener('click', () => {
+    const email = prompt('Enter your email to receive instant alerts when your saved items drop in price:');
+    if (email && email.includes('@')) {
+      showToast('🔔 Price drop alerts activated for ' + email + '!', 'success');
+    }
+  });
 
   // ── Init ──
   renderWishlist();

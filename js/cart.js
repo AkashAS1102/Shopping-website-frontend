@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let appliedCoupon   = null;
   let appliedDiscount = 0;
   let giftWrapActive  = false;
+  let tipAmount       = 0;
 
   // ── Render Cart Items ──
   function renderCart() {
@@ -195,13 +196,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 0);
     const delivery = subtotal > 0 && subtotal < DELIVERY_THRESHOLD ? DELIVERY_FEE : 0;
     const giftWrap = giftWrapActive ? GIFT_WRAP_FEE : 0;
-    const total    = Math.max(0, subtotal - appliedDiscount + delivery + giftWrap);
+    const total    = Math.max(0, subtotal - appliedDiscount + delivery + giftWrap + tipAmount);
 
     const el = id => document.getElementById(id);
     if (el('subtotal'))     el('subtotal').textContent    = formatPrice(subtotal);
     if (el('discountRow'))  el('discountRow').textContent = appliedDiscount > 0 ? `-${formatPrice(appliedDiscount)}` : '-₹0';
     if (el('discountRow'))  el('discountRow').style.color  = appliedDiscount > 0 ? 'var(--success)' : 'var(--text-light)';
     if (el('deliveryRow'))  el('deliveryRow').textContent = delivery === 0 && subtotal > 0 ? 'FREE 🎉' : formatPrice(delivery);
+    if (el('tipRow'))       el('tipRow').textContent      = tipAmount > 0 ? formatPrice(tipAmount) : '₹0';
     if (el('total'))        el('total').textContent       = formatPrice(total);
 
     // Reward points estimator
@@ -293,6 +295,30 @@ document.addEventListener('DOMContentLoaded', () => {
     bindProductCards(addonsGrid);
   }
   initCartAddons();
+
+  // ── Delivery Partner Tip Selector ──
+  document.querySelectorAll('.tip-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tip-btn').forEach(b => b.classList.remove('active'));
+      const val = parseInt(btn.dataset.tip || 0);
+      if (tipAmount === val) {
+        tipAmount = 0;
+      } else {
+        tipAmount = val;
+        btn.classList.add('active');
+        showToast(`❤️ Added ${formatPrice(val)} tip for delivery partner!`);
+      }
+      updateSummary();
+    });
+  });
+
+  // ── Delivery Instruction Selector ──
+  document.querySelectorAll('input[name="deliveryInstruction"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      LS.set('sn_delivery_instruction', radio.value);
+      showToast(`📝 Instruction set: "${radio.value}"`);
+    });
+  });
 
   // ── Init ──
   renderCart();
